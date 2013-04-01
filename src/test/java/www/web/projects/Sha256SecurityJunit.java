@@ -21,7 +21,7 @@ public class Sha256SecurityJunit {
 		try{
 			log.info(test.base64Edcoding().base64Decoding().sha256Encoding().toString());
 		}catch(Exception e){
-			log.error("SecurityException=" + e.getMessage());
+			log.error("SecurityException=" + e.getMessage());//git commit test..
 		}finally{}
 	}
 	
