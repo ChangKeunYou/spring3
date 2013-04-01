@@ -36,7 +36,7 @@ public class HomeController {
 		String formattedDate = dateFormat.format(date);
 		System.out.println("?????dd??=" + SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
 		
-		
+		//????
 		model.addAttribute("serverTime", formattedDate );
 		
 		return "home";
