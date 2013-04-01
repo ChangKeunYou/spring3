@@ -24,7 +24,7 @@ public class HomeController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	/**
-	 * Simply selects the home view to render by returning its name.    dddd
+	 * Simply selects the home view to render by returning its name.    dddd1234
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model , HttpServletRequest request,HttpServletResponse response) {
