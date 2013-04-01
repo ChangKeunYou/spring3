@@ -10,6 +10,5 @@
 	hi~~index.jsp
 	<!-- test test 123123123-->
 	hihihihi
-	yck 123 123
 </body>
 </html>
