@@ -9,20 +9,5 @@
 <body>
 	hi~~index.jsp
 	<!-- test test 123123123-->
-	hihihihi
-	test 111222333
-	
-	
-	testtest11
-	
-	총돌
-
-	
-	
-	
-	zzzzzzzzz
-	
-	
-	-_-
 </body>
 </html>
