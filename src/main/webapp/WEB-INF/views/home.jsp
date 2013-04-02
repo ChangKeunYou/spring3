@@ -3,16 +3,30 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.util.HashMap,java.util.ArrayList;"%>
 <jsp:useBean id="map" class="java.util.HashMap"></jsp:useBean><!-- jstl 사용 -->
+<c:set var="root" value="${pageContext.servletContext.contextPath}" scope="page" />
 <!DOCTYPE HTML>
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>Home</title>
-	
+	<script type="text/javascript" src="${root}/resources/js/common/jquery-1.8.3.min.js"></script>
 	<script type="text/javascript">
-		
-		
-		
+		$(document).ready(function(){
+			
+			
+			/*
+			*몽고DB 스크립트
+			*/
+			db.runCommand({
+				 mapreduce : "employees" ,
+				 query : {
+					 
+				 }
+				
+			});
+			
+			
+		});
 	</script>
 	
 </head>
