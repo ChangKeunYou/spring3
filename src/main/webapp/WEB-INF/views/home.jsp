@@ -14,17 +14,6 @@
 		$(document).ready(function(){
 			
 			
-			/*
-			*몽고DB 스크립트
-			*/
-			db.runCommand({
-				 mapreduce : "employees" ,
-				 query : {
-					 
-				 }
-				
-			});
-			
 			
 		});
 	</script>
