@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   
+       http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+       http://www.springframework.org/schema/util
+       http://www.springframework.org/schema/util/spring-util.xsd
+       http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+       http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring      
+       http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.1.xsd">
+	
+<!-- 
+	2012.12.31
+	dispacher-junit-test-servlet.xml 경우는
+	junit으로 java 기반으로 테스트 할 때 사용하기 위해서 작성
+	실질적으로는 db 커넥션 부분 bean 밖에 없음.
+ -->
+ 	<!-- Oracle -->
+	<!--  
+ 	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource"
+		p:driverClassName="oracle.jdbc.OracleDriver"
+		p:url="jdbc:oracle:thin:@112.171.15.154:1521:FRONTIER"
+		p:username="ecp" p:password="ecp00"
+		destroy-method="close"> 
+		<property name="validationQuery" value="select 1 from dual" />
+	</bean>
+	-->
+	<!--  
+	<bean id="dataSource"
+	  class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
+	  <property name="driverClass" value="oracle.jdbc.OracleDriver" />
+	  <property name="url" value="jdbc:oracle:thin:@112.171.15.154:1521:FRONTIER" />
+	  <property name="username" value="ecp" />
+	  <property name="password" value="ecp00" />
+	 </bean>
+	-->
+	<!-- Mysql -->
+	
+	<!--  
+	<context:component-scan base-package="com" />
+	<context:component-scan base-package="www" />
+	  -->
+	  
+	 <bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource"
+		p:driverClassName="com.mysql.jdbc.Driver"
+		p:url="jdbc:mysql://localhost:3306/test"
+		p:defaultAutoCommit="false"
+		p:username="root" p:password="1234"> 
+		<property name="validationQuery" value="select 1 from dual" />
+	</bean>
+	
+		<bean id="logDataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+	  <constructor-arg ref="dataSource" />
+	  <property name="logFormatter">
+	   <bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+	    <property name="loggingType" value="MULTI_LINE" />
+	    <property name="sqlPrefix" value="SQL=>" /> 
+	   </bean>
+	  </property>
+	 </bean>   
+
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="logDataSource" />
+	</bean>
+	
+	<bean id="vendorProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">  
+        <property name="properties">  
+        	<props>  
+               	<prop key="SQL Server">sqlserver</prop>  
+            	<prop key="DB2">db2</prop>
+            	<prop key="Derby">derby</prop> 
+               	<prop key="Oracle">oracle</prop>  
+                <prop key="MySQL">mysql</prop>  
+           	</props>  
+        </property>  
+   	</bean>  
+ 
+  	<bean id="databaseIdProvider" class="org.apache.ibatis.mapping.VendorDatabaseIdProvider">  
+        <property name="properties" ref="vendorProperties"/>  
+    </bean>  
+	
+	  <!-- seperator : , or ; -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="logDataSource" />
+        <property name="databaseIdProvider" ref="databaseIdProvider"/>
+        <property name="configLocation" value="classpath:mappers/mybatis-config.xml" />
+        <!--  
+        <property name="typeAliasesPackage" value="com.bizon.front.dto.manage,com.bizon.front.vo.manage,com.bizon.front.dto.mail,com.bizon.front.vo.mail,com.bizon.front.dto.common,com.bizon.front.dto.customer"/>
+         -->
+         <property name="typeAliasesPackage" value="com.bizon.front.vo , com.bizon.front.dto"/>
+	</bean>
+	
+	
+	<!-- seperator : , or ; -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--  
+        <property name="basePackage" value="com.bizon.front.dao.manage,com.bizon.front.dao.cea,com.bizon.front.dao.mbr,com.bizon.front.dao.mail,com.bizon.front.dao.common,com.bizon.front.dao.cst,com.bizon.front.dao.idx" />
+        -->
+       <property name="basePackage" value="com.bizon.front.dao.*" />
+    </bean>
+	
+	
+	 <!-- Sql Id로 실행하기 위한 구현 -->
+    <bean id="daoComExec" class="com.bizon.front.dao.com.DaoComExec">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" /> 
+    </bean>      
+	
+	<!-- 트랜잭션을 테스트할 클래스 를 선언한 이유는 스프링 스코프 내에 있어야 테스트가 가능하기 때문이다.
+		즉 테스트 시점이 되는 junit 부분은 스프링 스코프 안에 들어갈 수가 없다....그러므로 aop 묶어봐짜 소용없다-_-
+	 -->
+    <bean id="tranSactionDAOTemplate" class="com.bizon.front.service.test.TranSactionDAOTemplate">
+    	<property name="daoComExec" ref="daoComExec" />
+    </bean>
+    
+    <!-- controller 함수단위로 transaction 처리 적용 -->	
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" rollback-for="Exception,RuntimeException" propagation="REQUIRES_NEW" />
+		</tx:attributes>
+	</tx:advice>
+	
+	
+	
+	<aop:config>
+		<aop:pointcut id="tran_pointcut" expression="execution(public * com.bizon.front.service.test.*.*(..))" />
+		<aop:advisor advice-ref="txAdvice"  pointcut-ref="tran_pointcut" />
+	</aop:config>	
+	
+	
+	<!-- <mvc:default-servlet-handler/> -->
+	<mvc:default-servlet-handler default-servlet-name="WorkerServlet"/>
+	<mvc:annotation-driven />
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	<aop:aspectj-autoproxy />
+
+	 
+</beans>

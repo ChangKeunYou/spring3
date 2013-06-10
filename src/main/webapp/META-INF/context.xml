@@ -128,5 +128,24 @@
   					    	username="yck"
   					    	password="yck1234!!" 
      		/>		
+     		
+     		
+     		<!-- 메일관련 jndi -->
+     	 	
+	     <Resource 	auth="Container"
+	     			name="bizonMail" 
+	        		type="javax.mail.Session"
+	        		username="ck.you@businesson.co.kr"
+	        		password="yck025308"
+	        		mail.debug="false"
+	        		mail.user="ck.you@businesson.co.kr"
+	        		mail.from="ck.you@businesson.co.kr"
+	        		mail.transport.protocol="smtp" 
+	        		mail.smtp.host= "mail.businesson.co.kr"
+	        		mail.smtp.auth= "true"
+	        		mail.smtp.port= "25"
+	        		mail.smtp.starttls.enable="true"
+	    />
+     		
       			
 </Context>

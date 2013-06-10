@@ -1,0 +1,665 @@
+<?xml version="1.0" encoding="euc-kr"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bizon.front.dao.mbr.DaoMbr">
+	
+	<resultMap id="userMap" type="HashMap">
+        <result property="userid" 			column="userid" />
+        <result property="addr" 			column="addr"	/>
+        <result property="addr2" 			column="addr2"	/>
+        <result property="email" 			column="email" 		/>
+        <result property="idn" 				column="idn" 	/>
+       <!--   <result property="managerAuth" 		column="managerAuth" 	/> -->
+       	<result property="mobile" 			column="mobile" 	/>
+       	<result property="username" 		column="username" 	/>
+       	<result property="passwd" 			column="passwd" 	/>
+       <!--  	<result property="rollGrp" 			column="rollGrp" 	/> -->
+       	<result property="signatureYn" 		column="signatureYn" 	/>
+       	<result property="tel" 				column="tel" 	/>
+       	<result property="userLevel" 		column="userLevel" 	/>
+       	<result property="idnType" 			column="idnType" 	/>
+       	<result property="peerEncryptedYn" 	column="peerEncryptedYn" 	/>
+       	<result property="owner_tel" 		column="owner_tel" 	/>
+       	<result property="owner_mobile" 	column="owner_mobile" 	/>
+       	<result property="owner_addr" 		column="owner_addr" 	/>
+       	<result property="owner_addr2" 		column="owner_addr2" 	/>
+       	<result property="owner_email" 		column="owner_email" 	/>
+       	<result property="owner_name" 		column="owner_name" 	/>
+       	<result property="owner_fax" 		column="owner_fax" 	/>
+       <!--  	<result property="certPk" 			column="certPk" 	/> -->
+       	<result property="signCert" 	    column="signCert" 	/>
+       	<result property="recordSign" 		column="recordSign" javaType="byte[]" jdbcType="CLOB"/>
+       	<result property="status" 			column="status" 	/>
+       	<result property="upUserId" 		column="up_mbr_id"/>
+    </resultMap>
+	
+		<insert id="tranSactionTest"  parameterType="h_map">
+	<![CDATA[
+		INSERT INTO TEST_TRANSACTION VALUES (#{id},#{col1},#{col2})
+	]]>
+	</insert>
+	
+	<!-- 자체구축 여부 ecp에서 확인 -->
+	<select id="setPeerTypeCheck" parameterType="String" resultType="h_map">
+		<!-- 회원가입만 하고 등록자는 등록 안했을 경우 자체구축 여부는 A -->
+		<!-- 회원가입후 등록자 등록해서 MBR_ID 엮었을 경우 자체구축은 무조건 1 : 1 관리하기로 정책확정 그외 1:N으로 관리 -->
+		/* [담당자:유창근][자체구축 여부 조회][MbrMapper.xml][SvcMbr02.setPeerTypeCheck] */
+		SELECT *
+	    FROM(
+	          SELECT            A.MBR_ID,
+	                            DECODE(UPPER(TRIM(B.SELF_DEV_BUSS_YN)),'Y','C','A') AS SELF_DEV_BUSS_YN,
+	                            ROWNUM AS RNUM
+	          FROM              BF_ECP_USER  A
+	          LEFT OUTER JOIN   BF_ECP_ENTRY  B
+	          ON                A.MBR_ID = B.MBR_ID
+	          WHERE             1 = 1
+	          AND               A.MBR_ID IN (#{param1})
+	       ) C
+	    WHERE 1 = 1
+	    AND   C.RNUM BETWEEN 1 AND 1
+		
+	</select>
+	
+	<select id="selectUserMap" parameterType="String" resultMap="userMap">
+	/* [담당자:유창근][유저조회][MbrMapper.xml][SvcMbr01.getUserSch , SvcMbr01.getCorpUserSch , SvcMbr02.login ]  */
+		<!-- 더블 쿼티션으로 묶어야 as 소문자 가능 -->
+		SELECT    MBR_ID AS "userid",
+		          NVL(ADDR1,'') AS "addr",
+		          NVL(ADDR2,'') AS "addr2",
+		          NVL(EMAIL,'') AS "email",
+		          NVL(IDN,'') AS "idn",
+	
+		          NVL(MOBILE,'') AS "mobile",
+		          CASE
+                    WHEN TRIM(MBR_ID) = TRIM(UP_MBR_ID) THEN  NVL(NAME,'') 
+                    ELSE NVL(CGP_NM,'')
+                  END   AS "username",
+		          
+		          PASSWD    AS "passwd",
+	
+		          NVL(SIGNATURE_YN,'') AS "signatureYn",
+		          NVL(TEL,'')       AS "tel",
+		          USER_LEVEL AS "userLevel",
+		          NVL(USER_TYPE,'') AS "idnType",
+		          NVL(PEER_ENCRYPT_YN,'') AS "peerEncryptedYn",
+		          NVL(CGP_TELNO,'') AS "owner_tel",
+		          NVL(CGP_MOBILENO,'') AS "owner_mobile",
+		          NVL(CGP_ADDR1,'') AS "owner_addr",
+		          NVL(CGP_ADDR2,'') AS "owner_addr2",
+		          NVL(CGP_EMLADDR,'') AS "owner_email",
+		          NVL(CGP_NM , '') AS "owner_name",
+		          NVL(CGP_FAXNO , '') AS "owner_fax",
+		
+		          NVL(CERT_DN , '') AS "signCert",
+		          RECORD_SIGN AS "recordSign",
+		          STATUS AS "status",
+		          NVL(PSNO,'') AS "psno",
+		          NVL(DGPSN_NM,'') AS "dgpsn_nm",
+		          NVL(CGP_PSNO,'') AS "cgp_psno",
+		          NVL(UP_MBR_ID,'') AS "up_mbr_id",
+                  CASE WHEN UP_MBR_ID = MBR_ID THEN ' ' /* 등록자관리자인 경우 등록자상태체크할 필요 없음 */
+                       ELSE (SELECT B.ENTRY_STAT_CD
+                               FROM BF_ECP_ENTRY B
+                              WHERE SUBSTR(A.MBR_ID, INSTR(A.MBR_ID, '#') + 1) = B.ENTRY_ADDRESS)
+                       END AS "entryStatCd",
+                  NVL(IDV_CERT_ENCRYPT_YN,'') AS "idv_cert_encrypt_yn" --개인암호화 여부
+                  
+                  
+		FROM      BF_ECP_USER A
+		WHERE     1 = 1
+		AND       MBR_ID IN ( #{param1} )
+	</select>
+	
+	<select id="getUserDuplicationSch" parameterType="h_map" resultType="int">
+	/* [담당자:유창근][회원가입 ID 중복체크][MbrMapper.xml][SvcMbr01.getUserDuplicationSch]  */
+		SELECT  COUNT(*) AS CNT
+		FROM    BF_ECP_USER
+		WHERE   1 = 1
+		AND     MBR_ID = #{userid}
+	</select>
+	
+	
+	<insert id="setUserReg" parameterType="h_map">
+		/* [담당자:유창근][개인회원가입 Or 법인회원가입][MbrMapper.xml][SvcMbr01.setUserReg]  */
+		<!-- 개인회원 가입시 -->
+		<if test='idnType == "P"'>
+		  INSERT INTO BF_ECP_USER
+		  (
+		     MBR_ID,         
+		     FST_REG_DTM,     
+		     LST_UPD_DTM,    
+		     USER_LEVEL,      
+		     USER_TYPE,      
+		     STATUS,          
+		     PASSWD,      
+		     NAME,          
+		     IDN,          
+		     TEL,           
+		     MOBILE,         
+		     EMAIL,       
+		     PSNO,         
+		     ADDR2,         
+		     ADDR1,          
+		     CERT_DN,        
+		     PEER_ENCRYPT_YN,
+		     SIGNATURE_YN,  
+		     RECORD_SIGN,   
+		     DGPSN_NM,       
+		     CGP_EMLADDR,      
+		     CGP_TELNO,       
+		     CGP_FAXNO,        
+		     CGP_PSNO,        
+		     CGP_ADDR1,    
+		     CGP_ADDR2,     
+		     UP_MBR_ID,	
+		     RCV_AGMT_YN,		
+		     MAIL_DEPOSIT_STATUS, 
+		     MAIL_DEPOSIT_TERM ,
+		     IDV_CERT_ENCRYPT_YN  
+		  )VALUES(
+    			#{userid}, 
+    			SYSDATE,
+    			NULL,   
+    			#{userLevel}, 
+    			#{idnType,jdbcType=CHAR},
+    			1,
+    			#{passwd}, 
+    			#{username},
+    			NULL,
+    			#{tel}, 
+    			#{mobile}, 
+    			#{email}, 
+    			#{psno}, 
+    			#{addr2}, 
+    			#{addr}, 
+    			#{signCert}, 
+    			#{peerEncryptedYn}, 
+    			#{signatureYn,jdbcType=CHAR},
+    			#{record_sign,jdbcType=CLOB},
+    			NULL,
+    			NULL,
+    			NULL,
+    			NULL,
+    			NULL,
+    			NULL,
+    			NULL,
+    			#{userid},
+    			#{rcv_agmt_yn}, 
+    			2 ,
+    			12,
+    			#{idv_cert_encrypt_yn}
+  		  )
+		</if>
+			
+		<!-- 국가기관 , 법인/단체 , 개인사업자 -->
+		<if test='idnType != "P"'>	
+		INSERT INTO BF_ECP_USER
+		  (
+		     MBR_ID,          --회원ID
+		     FST_REG_DTM,     --최초등록일시
+		     LST_UPD_DTM,     --최종변경일시
+		     USER_LEVEL,      --사용자레벨
+		     USER_TYPE,       --사용자유형
+		     STATUS,          --회원상태
+		     PASSWD,          --비밀번호(암호화)
+		     NAME,            --이름
+		     IDN,             --회원식별번호 
+		     TEL,             --전화번호(암호화)
+		     MOBILE,          --핸드폰(암호화)
+		     EMAIL,           --이메일
+		     PSNO,            --우편번호
+		     ADDR2,           --주소2(암호화)
+		     ADDR1,            --주소1(암호화)
+		     CERT_DN,         --인증서DN
+		     PEER_ENCRYPT_YN, --송수신개체암호화여부
+		     SIGNATURE_YN,    --서명사용여부
+		     RECORD_SIGN,     --보안레코드데이터
+		     DGPSN_NM,           --대표자명
+		     CGP_NM,			 --담당자명
+		     CGP_MOBILENO,		 --담당자 핸드폰
+		     CGP_EMLADDR,        --담당자EMAIL주소
+		     CGP_TELNO,          --담당자전화번호
+		     CGP_FAXNO,          --담당자팩스번호
+		     CGP_PSNO,           --담당자우편번호
+		     CGP_ADDR1,          --담당자주소1
+		     CGP_ADDR2,           --담당자주소2
+		     UP_MBR_ID,          --상위ID
+		     RCV_AGMT_YN,		--수신동의여부
+		     MAIL_DEPOSIT_STATUS,  --메일보관상태코드
+		     MAIL_DEPOSIT_TERM,  --메일보관연장기간
+		     IDV_CERT_ENCRYPT_YN
+		  )VALUES(
+    			#{userid}, --회원ID
+    			SYSDATE,
+    			NULL,    --최종변경일시
+    			#{userLevel}, 
+    			#{idnType,jdbcType=CHAR}, 
+    			1, --회원상태
+    			#{passwd}, --비밀번호(암호화)
+    			#{username},--법인명
+    			#{idn}, --회원식별번호
+    			#{tel}, --대표전화전호
+    			null, --대표핸드폰
+    			#{email}, --대표이메일
+    			#{psno},  --대표우편번호
+    			#{addr2}, --대표ADDR2
+    			#{addr}, --대표ADDR
+    			#{signCert}, --인증서DN
+    			#{peerEncryptedYn}, --송수신개체 암호화 사용여부 DEFAULT 사용으로
+    			#{signatureYn,jdbcType=CHAR}, --서명사용여부(기존디비 보니 N으로 세팅 똑같이 세팅함)
+    			#{record_sign,jdbcType=CLOB}, --보안레코드데이터
+    			#{dgpsn_nm}, --대표자명
+    			#{owner_name},      --담당자명
+    			#{owner_mobile},	--담당자 핸드폰
+    			#{owner_email},     --담당자 이메일
+    			#{owner_tel},		--담당자 전화번호
+    			#{owner_fax},		--담당자 팩스번호
+    			#{owner_psno},		--담당자 우편번호
+    			#{owner_addr},		--담당자 주소1
+    			#{owner_addr2},
+    			#{userid}, 		--상위회원ID
+    			#{rcv_agmt_yn}, --수신동의여부
+    			2 ,--만료메일 삭제여부 (1 : 자동이관 , 2 : 완료삭제 , 3 : 기간연장)
+    			12,  --기존꺼랑 똑같이 세팅 기존에도 12로 세팅
+    			#{idv_cert_encrypt_yn}
+  		  )
+		</if>	
+	</insert>
+	
+	
+	
+	<select id="selectSystemUser" parameterType="String" resultType="h_map">
+	/* [담당자:유창근][ECM 사용자 sync 처리 시 사용자 조회][MbrMapper.xml][SvcMbr01.sendUserInfoMsg]  */
+		SELECT 
+		  MBR_ID
+		  ,PASSWD
+		  ,USER_LEVEL
+		  ,USER_TYPE
+		  ,STATUS
+		  ,CERT_DN
+		  ,NAME
+		  ,IDN
+		  ,ADDR1
+		  ,ADDR2
+		  ,TEL
+		  ,MOBILE
+		  ,EMAIL
+		FROM BF_ECP_USER 
+         WHERE USER_TYPE = #{param1}
+         AND USER_LEVEL = #{param2}
+	</select>
+	
+	
+	<!--  
+	<select id="getUserPwdChk" parameterType="h_map" resultType="int">
+	/* [담당자:유창근][??][MbrMapper.xml][SvcMbr01.sendUserInfoMsg]  */
+		SELECT  COUNT(*) AS CNT
+		FROM    BF_ECP_USER
+		WHERE   1 = 1
+		AND     MBR_ID = #{userid}
+		AND		PASSWD=#{passwd}
+	</select>
+	-->
+	
+	
+	
+	<update id="setUserUpd" parameterType="h_map">
+	/* [담당자:유창근][개인회원 Or 법인회원 수정][MbrMapper.xml][SvcMbr01.setUserUpd]  */
+			UPDATE 	BF_ECP_USER SET
+					CERT_DN = CASE WHEN #{idv_cert_encrypt_yn} = 'N' THEN ' ' ELSE #{signCert} END,
+					IDV_CERT_ENCRYPT_YN = #{idv_cert_encrypt_yn},
+					PEER_ENCRYPT_YN = #{peerEncryptedYn},
+					DGPSN_NM = #{dgpsn_nm},	
+					TEL = #{tel},
+					MOBILE = #{mobile},
+					EMAIL = #{email},
+					PSNO = #{psno},
+					ADDR1 = #{addr},
+					ADDR2 = #{addr2},
+				    CGP_NM = #{owner_name},			 
+			        CGP_MOBILENO = #{owner_mobile},		 
+			        CGP_EMLADDR = #{owner_email},       
+			        CGP_TELNO = #{owner_tel},          
+			        CGP_FAXNO = #{owner_fax},         
+			        CGP_PSNO = #{owner_psno},           
+			        CGP_ADDR1 = #{owner_addr},          
+			        CGP_ADDR2= #{owner_addr2},           
+					<!--  RECORD_SIGN=#{record_sign,jdbcType=CLOB}, -->
+					LST_UPD_DTM = SYSDATE
+			WHERE 	MBR_ID = #{userid}
+	</update>
+	
+	
+	
+	<update id="setUpUserUpd" parameterType="h_map">   <!-- 상하위단 전체 수정 -->
+	/*[담당자:이병민][개인회원 Or 법인회원 수정][MbrMapper.xml][SvcMbr01.setUserUpd]*/
+			
+			UPDATE BF_ECP_USER
+			  SET LST_UPD_DTM         =  SYSDATE                --최종변경일시                
+			    , EMAIL               =  #{email}               --EMAIL                       
+			    , CGP_EMLADDR         =  #{owner_email}         --담당자EMAIL주소             
+			    , TEL                 =  #{tel}                 --전화번호                    
+			    , CGP_TELNO           =  #{owner_tel}           --담당자전화번호              
+			    , MOBILE              =  #{mobile}              --핸드폰번호                  
+			    , CGP_MOBILENO        =  #{owner_mobile}        --등록자 생성 담당자핸드폰번호
+			    , ADDR1               =  #{addr}
+			    , ADDR2               =  #{addr2}
+			    , PEER_ENCRYPT_YN     =  #{peerEncryptedYn}     --송수신개체암호화여부        
+			    , IDV_CERT_ENCRYPT_YN =  #{idv_cert_encrypt_yn} --개인인증서암호화여부        
+			    , CERT_DN             =  #{signCert}             --개인인증서
+			WHERE UP_MBR_ID =  #{userid} --회원ID(등록자주소관리자ID)
+			  AND (USER_TYPE = 'P' OR (RPRS_ACNT_YN = 'Y' OR UP_MBR_ID = MBR_ID)) --개인 사용자 및 대표사용자	    
+			  
+			  
+	
+	</update>
+	
+	
+	
+	
+	<!-- 사용자 ID 찾기 -->
+	<select id="getUserIdSch" parameterType="h_map" resultType="h_map">
+		/* [담당자:유창근][개인회원 Or 법인회원 ID찾기][MbrMapper.xml][SvcMbr02.getUserIdSch]  */
+		
+		SELECT    NVL(MBR_ID,'') AS MBR_ID 
+		FROM      BF_ECP_USER 
+		<where>
+		     1 = 1
+			<if test='idnType == "P"'>
+				AND		  NAME=#{username} 
+				AND       EMAIL=#{email}
+			</if>
+			<if test='idnType != "P"'>
+				AND       IDN=#{corp_num}
+			</if>
+		</where>
+	</select>
+	
+	
+	<!--  BF_ECP_USER 및 BF_ECP_ENTRY 조인하여 사용자 조회 -->
+	<select id="getEntryUserSch" parameterType="java.lang.String" resultType="h_map">
+	/* [담당자:유창근][개인회원 Or 법인회원 등록된 계정 사용자 조회][MbrMapper.xml][SvcMbr01.getEntryUserSch]  */
+		SELECT        A.MBR_ID AS "userId",
+		              A.PASSWD AS "passwd",
+		              A.NAME   AS "USERNAME",
+		              B.ENTRY_ADDRESS AS "ENTRY_ADDRESS",
+		              (A.ADDR1 || ' ' || A.ADDR2) AS "ADDR",
+		              A.TEL AS "TEL",
+		              A.MOBILE AS "MOBILE",
+		              A.EMAIL AS "EMAIL",
+		              NVL(A.CGP_NM,'') AS "CEO_NAME",
+		              NVL(B.ENTRY_STAT_CD,'') AS "ENTRY_STAT_CD"
+		FROM          BF_ECP_USER   A
+		INNER JOIN    BF_ECP_ENTRY  B
+		ON            A.MBR_ID = B.MBR_ID
+		WHERE         1 = 1
+		AND           A.MBR_ID = #{param1}
+	</select>
+	
+	<!-- 등록 수정시 -->
+	<update id="setUserReCordSignUpd" parameterType="h_map"> <!-- 상위단 -->
+		/*[담당자:이병민][회원정보 보안레코드수정][MbrMapper.xml][SvcMbr01.setUserReg] */
+		UPDATE BF_ECP_USER 
+		   SET RECORD_SIGN = UTL_I18N.STRING_TO_RAW(
+		                          MBR_ID                --회원ID              
+		                        ||TO_CHAR(FST_REG_DTM, 'YYYYMMDD') --최초등록일시        
+		                        ||TO_CHAR(LST_UPD_DTM, 'YYYYMMDD') --최종변경일시        
+		                        ||USER_LEVEL            --사용자레벨          
+		                        ||USER_TYPE             --사용자유형          
+		                        ||STATUS                --회원상태            
+		                        ||PASSWD                --비밀번호            
+		                        ||NAME                  --이름                
+		                        ||IDN                   --회원식별번호        
+		                        ||TEL                   --전화번호            
+		                        ||MOBILE                --핸드폰              
+		                        ||EMAIL                 --이메일              
+		                        ||PSNO                  --우편번호            
+		                        ||ADDR1                 --주소1               
+		                        ||ADDR2                 --주소2               
+		                        ||PEER_ENCRYPT_YN       --송수신개체암호화여부
+		                        ||SIGNATURE_YN          --서명사용여부        
+		                        ||MAIL_DEPOSIT_STATUS   --메일보관상태코드    
+		                        ||MAIL_DEPOSIT_TERM     --메일보관연장기간    
+		                        ||DGPSN_NM              --대표자명            
+		                        ||CGP_NM                --담당자명            
+		                        ||CGP_EMLADDR           --담당자EMAIL주소     
+		                        ||CGP_TELNO             --담당자전화번호      
+		                        ||CGP_MOBILENO          --담당자핸드폰번호    
+		                        ||CGP_FAXNO             --담당자팩스번호      
+		                        ||CGP_PSNO              --담당자우편번호      
+		                        ||CGP_ADDR1             --담당자주소1         
+		                        ||CGP_ADDR2             --담당자주소2         
+		                        ||UP_MBR_ID             --상위회원ID          
+		                        ||RCV_AGMT_YN           --수신동의여부
+		                        ||RPRS_ACNT_YN			--대표계정여부
+		                        ||IDV_CERT_ENCRYPT_YN   --개인암호화인증서 여부
+		                     , 'AL32UTF8')
+		WHERE MBR_ID = #{userid} --회원ID
+	</update>
+	
+	<update id="setUpuserReCordSignUpd" parameterType="h_map"> <!-- 하위단 -->
+		/*[담당자:이병민][회원정보 하위포함 보안레코드수정][MbrMapper.xml][SvcMbr01.setUserReg] */
+		UPDATE BF_ECP_USER 
+		   SET RECORD_SIGN = UTL_I18N.STRING_TO_RAW(
+		                          MBR_ID                --회원ID              
+		                        ||TO_CHAR(FST_REG_DTM, 'YYYYMMDD') --최초등록일시        
+		                        ||TO_CHAR(LST_UPD_DTM, 'YYYYMMDD') --최종변경일시        
+		                        ||USER_LEVEL            --사용자레벨          
+		                        ||USER_TYPE             --사용자유형          
+		                        ||STATUS                --회원상태            
+		                        ||PASSWD                --비밀번호            
+		                        ||NAME                  --이름                
+		                        ||IDN                   --회원식별번호        
+		                        ||TEL                   --전화번호            
+		                        ||MOBILE                --핸드폰              
+		                        ||EMAIL                 --이메일              
+		                        ||PSNO                  --우편번호            
+		                        ||ADDR1                 --주소1               
+		                        ||ADDR2                 --주소2               
+		                        ||PEER_ENCRYPT_YN       --송수신개체암호화여부
+		                        ||SIGNATURE_YN          --서명사용여부        
+		                        ||MAIL_DEPOSIT_STATUS   --메일보관상태코드    
+		                        ||MAIL_DEPOSIT_TERM     --메일보관연장기간    
+		                        ||DGPSN_NM              --대표자명            
+		                        ||CGP_NM                --담당자명            
+		                        ||CGP_EMLADDR           --담당자EMAIL주소     
+		                        ||CGP_TELNO             --담당자전화번호      
+		                        ||CGP_MOBILENO          --담당자핸드폰번호    
+		                        ||CGP_FAXNO             --담당자팩스번호      
+		                        ||CGP_PSNO              --담당자우편번호      
+		                        ||CGP_ADDR1             --담당자주소1         
+		                        ||CGP_ADDR2             --담당자주소2         
+		                        ||UP_MBR_ID             --상위회원ID          
+		                        ||RCV_AGMT_YN           --수신동의여부
+		                        ||RPRS_ACNT_YN			--대표계정여부
+		                        ||IDV_CERT_ENCRYPT_YN   --개인암호화인증서 여부
+		                     , 'AL32UTF8')
+		WHERE UP_MBR_ID = #{userid} --회원ID
+	</update>
+	
+	
+	<!-- 로그인 -->
+	<select id="getUserReCordSignYnSch" parameterType="java.lang.String" resultType="h_map">
+		/*[담당자:이병민][로그인 위변조여부 조회][MbrMapper.xml][SvcMbr01.login] */
+		SELECT CASE WHEN COUNT(DECODE(V1.RECORD_SIGN_YN, 'N', 1)) > 0 THEN 'N ' ELSE 'Y' END AS RECORD_SIGN_YN --위변조여부(Y:정상, N:변경)
+		FROM (
+		      /*등록자위변조검사*/    
+		      SELECT CASE WHEN UTL_I18N.STRING_TO_RAW(
+		                   ENTRY_ADDRESS                        --등록자주소              
+		                 ||TO_CHAR(FST_REG_DTM, 'YYYYMMDD')     --최초등록일시            
+		                 ||TO_CHAR(LST_UPD_DTM, 'YYYYMMDD')     --최종변경일시            
+		                 ||MBR_ID                               --회원ID                  
+		                 ||SELF_DEV_BUSS_YN                     --자체구축사업자여부      
+		                 ||ENTRY_STAT_CD                        --등록자주소상태코드      
+		                 ||TO_CHAR(ENTRY_DUE_DATE, 'YYYYMMDD')  --등록자사용만료일        
+		                 ||PEER_REG_NUM                         --송수신개체인증번호      
+		                 ||PEER_TYPE                            --송수신개체구분          
+		                 ||RENEWAL_REQUEST_YN                   --이용연장신청여부        
+		                 ||TO_CHAR(RENEWAL_REQUEST_DATE, 'YYYYMMDD')   --이용연장신청일          
+		                 ||ID_INFO_OPEN_YN                      --공인전자주소정보제공여부
+		                 ||ADMIN_ASSIGN_YN                      --대표공인전자주소지정    
+		                 ||RCMDR_ID                             --추천인ID                
+		               , 'AL32UTF8') = DBMS_LOB.SUBSTR(RECORD_SIGN, 2000, 1) THEN 'Y' ELSE 'N' 
+		             END AS RECORD_SIGN_YN --등록자주소위번조여부
+		      FROM BF_ECP_ENTRY 
+		      WHERE MBR_ID = #{param1} --회원ID
+		      UNION ALL
+		      /*회원위변조검사*/
+		      SELECT CASE WHEN UTL_I18N.STRING_TO_RAW(
+		                   MBR_ID                --회원ID              
+		                 ||TO_CHAR(FST_REG_DTM, 'YYYYMMDD') --최초등록일시        
+		                 ||TO_CHAR(LST_UPD_DTM, 'YYYYMMDD') --최종변경일시        
+		                 ||USER_LEVEL            --사용자레벨          
+		                 ||USER_TYPE             --사용자유형          
+		                 ||STATUS                --회원상태            
+		                 ||PASSWD                --비밀번호            
+		                 ||NAME                  --이름                
+		                 ||IDN                   --회원식별번호        
+		                 ||TEL                   --전화번호            
+		                 ||MOBILE                --핸드폰              
+		                 ||EMAIL                 --이메일              
+		                 ||PSNO                  --우편번호            
+		                 ||ADDR1                 --주소1               
+		                 ||ADDR2                 --주소2               
+		                 ||PEER_ENCRYPT_YN       --송수신개체암호화여부
+		                 ||SIGNATURE_YN          --서명사용여부        
+		                 ||MAIL_DEPOSIT_STATUS   --메일보관상태코드    
+		                 ||MAIL_DEPOSIT_TERM     --메일보관연장기간    
+		                 ||DGPSN_NM              --대표자명            
+		                 ||CGP_NM                --담당자명            
+		                 ||CGP_EMLADDR           --담당자EMAIL주소     
+		                 ||CGP_TELNO             --담당자전화번호      
+		                 ||CGP_MOBILENO          --담당자핸드폰번호    
+		                 ||CGP_FAXNO             --담당자팩스번호      
+		                 ||CGP_PSNO              --담당자우편번호      
+		                 ||CGP_ADDR1             --담당자주소1         
+		                 ||CGP_ADDR2             --담당자주소2         
+		                 ||UP_MBR_ID             --상위회원ID          
+		                 ||RCV_AGMT_YN           --수신동의여부
+		                 ||RPRS_ACNT_YN			 --대표계정여부
+		                 ||IDV_CERT_ENCRYPT_YN   --개인암호화인증서 여부
+		              , 'AL32UTF8') = DBMS_LOB.SUBSTR(RECORD_SIGN, 2000, 1) THEN 'Y' ELSE 'N' 
+		             END AS RECORD_SIGN_YN --회원위번조여부
+		      FROM BF_ECP_USER
+		      WHERE MBR_ID = #{param1} --회원ID
+		  ) V1
+	</select>
+	
+	<select id="getUserPassWdChk" parameterType="h_map" resultType="int">
+		SELECT 		COUNT(*) AS CNT
+		FROM		BF_ECP_USER
+		WHERE		MBR_ID = #{userid}
+		AND			PASSWD = #{passwd}
+	</select>
+	
+	
+	<update id="setOwnerUserUpd" parameterType="h_map">
+		/* [담당자:유창근][개인회원 Or 법인회원 등록자관련 담당자 수정][MbrMapper.xml][SvcMbr01.setOwnerUserUpd]  */
+		
+			UPDATE BF_ECP_USER SET
+				
+				<if test='idv_cert_encrypt_yn == "Y" '>
+					CERT_DN = #{signCert},
+				</if>	
+				<if test='idv_cert_encrypt_yn == "N" '>
+					CERT_DN = null,
+				</if>
+				IDV_CERT_ENCRYPT_YN = #{idv_cert_encrypt_yn},
+				PEER_ENCRYPT_YN = #{peerEncryptedYn},
+				
+				CGP_NM = #{username},
+				CGP_TELNO = #{tel},
+				CGP_MOBILENO = #{mobile},
+				CGP_EMLADDR = #{email},
+				CGP_PSNO = #{psno},
+				CGP_ADDR1 = #{addr},
+				CGP_ADDR2 = #{addr2}
+				
+			WHERE MBR_ID = #{userid}
+	</update>
+	
+	<!-- 등록자관리자의 로그인 시 사용가능한 계정정보 조회 -->
+	<select id="getValidAddressList" parameterType="string" resultType="h_map">
+		SELECT B.MBR_ID AS "mbrId"
+		     , B.PASSWD AS "passwd" 
+		     , A.ENTRY_STAT_CD AS "entryStatCd"
+		  FROM BF_ECP_ENTRY A
+		     , BF_ECP_USER B
+		 WHERE A.MBR_ID = #{param}
+		   AND A.SELF_DEV_BUSS_YN = 'N'
+		   AND A.ENTRY_STAT_CD != 'RP3E2' /* 등록신청심사중 제외 */
+		   AND A.MBR_ID = B.UP_MBR_ID
+		   AND A.ENTRY_ADDRESS = SUBSTR(B.MBR_ID, INSTR(B.MBR_ID, '#') + 1)
+		   AND B.RPRS_ACNT_YN = CASE WHEN B.USER_TYPE = 'P' THEN B.RPRS_ACNT_YN ELSE 'Y' END /* 개인인 경우 전체 계정 조회/법인인 경우 대표 계정만 조회 */
+		   AND B.MBR_ID != B.UP_MBR_ID
+	</select>		
+	
+	<select id="testSelect_ecp" resultType="h_map">
+		SELECT 'ECP' AS TITLE , A.* FROM TAB A
+	</select>
+	
+	
+	<select id="selectUserSch" parameterType="h_map" resultType="h_map">
+		SELECT  MBR_ID AS "userid" ,
+				NAME AS "username" ,
+				USER_TYPE AS "usertype"
+		FROM    BF_ECP_USER
+		WHERE   MBR_ID = TRIM(#{userid})
+		AND	    NAME = TRIM(#{username})
+		AND	    #{mobile} = (
+                      SELECT   CASE 
+                                  WHEN MOBILE IS NULL THEN CGP_MOBILENO --법입
+                                  ELSE MOBILE --개인
+                               END AS MOBILE
+                      FROM     BF_ECP_USER
+                      WHERE    MBR_ID = TRIM(#{userid})
+                  )
+	</select>
+	
+	
+	<update id="setUserPasswdUpd" parameterType="h_map">
+		UPDATE BF_ECP_USER SET
+		PASSWD = #{password1}
+		WHERE MBR_ID = #{userid}
+	</update>
+	
+	
+	<select id="setUpUserlist" parameterType="h_map" resultType="h_map">
+		SELECT MBR_ID
+		     , PASSWD
+		     , TEL
+		     , MOBILE
+		     , EMAIL
+		     , ADDR1
+		     , ADDR2      
+		     , PEER_ENCRYPT_YN    
+		     , CERT_DN 
+		     , RPRS_ACNT_YN --대표계정여부
+		FROM BF_ECP_USER
+		WHERE UP_MBR_ID = #{userid} --회원ID(등록자주소관리자ID) 
+		  AND (USER_TYPE = 'P' OR RPRS_ACNT_YN = 'Y') --개인 사용자 및 대표사용자
+		 
+	</select>
+	
+	
+	<!--  
+	프로시져콜 
+	map형식 파라메터를 커스텀하게 만들어서 사용해도 된다  
+	-->
+	<select id="setUserReCordSignUpd_Mul" statementType="CALLABLE" parameterType="h_map" resultType="h_map">
+		{ 
+			CALL SP_ECP_USER_UPDATE_01 (
+				#{userid},
+				#{peerEncryptedYn},
+				#{idv_cert_encrypt_yn},
+				#{signCert},
+				#{idnType},
+				#{SP_RESULT , mode=OUT , jdbcType=VARCHAR , javaType=String},
+				#{SP_RESULT_MESSAGE , mode=OUT , jdbcType=VARCHAR , javaType=String}
+			) 
+		}	
+	</select>
+	
+		
+</mapper>

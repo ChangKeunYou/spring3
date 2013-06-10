@@ -5,13 +5,29 @@
 	<!-- Appenders -->
 	<appender name="console" class="org.apache.log4j.ConsoleAppender">
 		<param name="Target" value="System.out" />
-		<layout class="org.apache.log4j.PatternLayout">
+		<param name="encoding" value="utf-8"></param>
+		<param name="DatePattern" value="'.'yyyy-MM-dd-HH" />
+		<param name="ImmediateFlush" value="true" />  	
+		<!--  layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%-5p: %c - %m%n" />
-		</layout>
+		</layout -->
+		<layout class="org.apache.log4j.SimpleLayout" />
 	</appender>
 	
+	<!-- 파일로 흔적..남김 -->
+	<appender name="file_log" class="org.apache.log4j.RollingFileAppender">
+		 <param name="MaxFileSize" value="1024KB" />
+		 <param name="encoding" value="utf-8"></param>
+		 <param name="MaxBackupIndex" value="5" />
+		 <param name="File" value="C:/businesson_logs/shapmail_logs/web_logfile.log" />
+		 <param name="DatePattern" value="'.'yyyy-MM-dd-HH" />
+		 <param name="ImmediateFlush" value="true" />  	
+		 <layout class="org.apache.log4j.SimpleLayout" />
+	</appender>
+	
+	
 	<!-- Application Loggers -->
-	<logger name="www.web.projects">
+	<logger name="com.bizon.front">
 		<level value="info" />
 	</logger>
 	
@@ -25,17 +41,68 @@
 	</logger>
 	
 	<logger name="org.springframework.context">
-		<level value="info" />
+		<level value="info" />  
 	</logger>
 
 	<logger name="org.springframework.web">
 		<level value="info" />
 	</logger>
-
+	
+    <!-- war 파일 배포시 여기부터는 info로 변경 할 것 -->
+    
+	<!--  logger name="java.sql.Connection">
+	    <level value="info" />
+	</logger>
+	 
+	<logger name="java.sql.Statement">
+	    <level value="info" />
+	</logger>
+	 
+	<logger name="java.sql.PreparedStatement">
+	    <level value="info" />
+	</logger>
+	 
+	<logger name="java.sql.ResultSet">
+	    <level value="info" />
+	</logger --> 
+	
+	<logger name="org.mybatis">
+		<level value="info" />
+	</logger>
+	
+	<logger name="org.apache">
+		<level value="info" />  
+	</logger>
+	
+   <!-- 쿼리 후 데이터셋 로그 	 
+	<logger name="jdbc.resultsettable">
+	  <level value="debug" />
+	 </logger>
+	-->
+	
+		
+	<!-- 쿼리 로그  -->
+	<logger name="jdbc.sqlonly">
+	  <level value="debug" />
+	 </logger>
+	
+	 
+	 <logger name="net.sf.log4jdbc" additivity="false">
+	  <level value="info" />
+	 </logger>
+	 
+	 <logger name="www.web.projects">
+	 	<level value="info"></level>
+	 </logger>
+	
 	<!-- Root Logger -->
 	<root>
 		<priority value="warn" />
 		<appender-ref ref="console" />
+		<!-- <appender-ref ref="file_log" />  -->
 	</root>
+	
+	
+	 
 	
 </log4j:configuration>
