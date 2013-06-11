@@ -20,7 +20,7 @@
 	
 	<!-- Processes application requests -->
 	<servlet>
-		<servlet-name>appServlet</servlet-name>
+		<servlet-name>bizonServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
@@ -30,11 +30,12 @@
 	</servlet>
 		
 	<servlet-mapping>
-		<servlet-name>appServlet</servlet-name>
+		<servlet-name>bizonServlet</servlet-name>
 		<url-pattern>*.view</url-pattern><!-- mail -->
-		<url-pattern>*.json</url-pattern><!-- business login return json -->
-		<url-pattern>*.do</url-pattern><!-- business login return 각종 스트림.. -->
+		<url-pattern>*.do</url-pattern><!-- business area return 각종 스트림.. -->
 		<url-pattern>*.pop</url-pattern><!-- 팝업 -->
+		<url-pattern>*.json</url-pattern><!-- business area return json -->
+		<url-pattern>*.xml</url-pattern><!-- business area return xml -->
 	</servlet-mapping>
 	
 	
