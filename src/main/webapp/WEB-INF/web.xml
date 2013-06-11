@@ -13,7 +13,11 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-
+	
+	<listener>
+	    <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
+	</listener>	   
+	
 	<!-- Processes application requests -->
 	<servlet>
 		<servlet-name>appServlet</servlet-name>
@@ -27,8 +31,10 @@
 		
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
-		<url-pattern>*.view</url-pattern>
-		<url-pattern>*.json</url-pattern>
+		<url-pattern>*.view</url-pattern><!-- mail -->
+		<url-pattern>*.json</url-pattern><!-- business login return json -->
+		<url-pattern>*.do</url-pattern><!-- business login return 각종 스트림.. -->
+		<url-pattern>*.pop</url-pattern><!-- 팝업 -->
 	</servlet-mapping>
 	
 	

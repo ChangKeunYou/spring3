@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+ <!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+  <!-- 
+  	2012.08.10
+  	네오모듈 유창근
+  	Tile Template 파일을 설정한 xml이다
+   -->     
+   
+   <tiles-definitions>
+   
+	<definition>
+		
+	</definition>
+   	
+   </tiles-definitions>
