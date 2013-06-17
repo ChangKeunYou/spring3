@@ -6,6 +6,7 @@
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:jaxws="http://cxf.apache.org/jaxws"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc 
@@ -30,11 +31,8 @@
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
-	<annotation-driven />
+	<!--  annotation-driven / -->
     <mvc:annotation-driven />
-
-   	<context:component-scan base-package="www.web.projects" /> 
-	<context:component-scan base-package="com.bizon.front" /> 
    
    	<!-- Spring Annotation -->
 	<context:annotation-config/>
@@ -43,10 +41,19 @@
     
     <aop:aspectj-autoproxy />
     
+    <context:component-scan base-package="www.web.projects" /> 
+	<context:component-scan base-package="com.bizon.front" /> 
+    
+    
     <!--  
     	context:annotation-config <- 이걸로 대체 가능
     	<beans:bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
     -->	
+    
+ 
+    
+    <!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+	<resources mapping="/resources/**" location="/resources/" />
     
     <!-- 리소스 관리 -->
 	<beans:bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">	
@@ -57,23 +64,109 @@
 		</beans:property>
 	</beans:bean>	
     
-	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
-	<resources mapping="/resources/**" location="/resources/" />
+	<mvc:view-controller path="/login.view" view-name="login"/>
 
-	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
-	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<beans:property name="prefix" value="/WEB-INF/jsp/" />
-		<beans:property name="suffix" value=".jsp" />
-	</beans:bean>
-	
-	
-	<!-- View Resolver  해당 bean을 등록해야 Action class 에서 View 영역 호출이 가능 -->
+    <!-- url로 매핑하여 해당 컨트롤러 찾아 가는 빈 -->
+    <beans:bean id="urlMapping" class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" />
+    
+
+	<!-- View Resolver  해당 bean을 등록해야 Action class 에서 View 영역 호출이 가능 --> 
 	<beans:bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
-		<beans:property name="order" value="2"></beans:property>
+		<beans:property name="order" value="0"></beans:property>
+	</beans:bean>
+	 
+	
+	<!-- 타일즈 설정 및 타입별 리턴 정의 -->  
+	<beans:bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
+		<beans:property name="definitions">
+			<beans:list>
+				<beans:value>/WEB-INF/spring/tilesConfig/tiles3-common-template.xml</beans:value>
+				<beans:value>/WEB-INF/spring/tilesConfig/tiles3-test-template.xml</beans:value>
+			</beans:list>
+		</beans:property>
 	</beans:bean>
 	
-	<beans:bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver" /> 
+	
+	<!-- 
+		스프링3.2.x버전부터는 약간의 변경이 생겼다 contentNegotiationManager 사용해야한다 
+		mediaTypes 으로 설정후에 서버를 스타트 해보니 로드시 ClassCastException 를 던졌다.
+		context 파일을 보니 <property name="mediaTypes">에 warning이 떠 있다.
+	-->
+	<beans:bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver" p:order="1">
+		
+		<beans:property name="contentNegotiationManager">
+			<beans:bean class="org.springframework.web.accept.ContentNegotiationManager">
+				<beans:constructor-arg>
+					<beans:bean class="org.springframework.web.accept.PathExtensionContentNegotiationStrategy">
+						<beans:constructor-arg>
+							<beans:map>
+								<!-- 
+									.do로 들어오는 것은 개발자가 알아서 AbstractView 상속받아서 response컨텐츠 타입 정해서
+									 내보낼 것-_-..  예를들어 pdf , excel 등은 .do로 요청하여 작업한다
+								-->
+								<beans:entry key="view" value="text/html" />
+								<beans:entry key="pop" value="text/html" />
+								<beans:entry key="json" value="application/json" />
+								<beans:entry key="xml"  value="application/xml" />
+							</beans:map>
+						</beans:constructor-arg>
+					</beans:bean>
+				</beans:constructor-arg>	
+			</beans:bean>
+		</beans:property>
+		
+		<beans:property name="viewResolvers">
+			<beans:list>
+			
+				<beans:bean class="org.springframework.web.servlet.view.UrlBasedViewResolver">
+					<beans:property name="viewClass" value="org.springframework.web.servlet.view.tiles3.TilesView" />
+				</beans:bean>
+				
+				<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+					<beans:property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+					<beans:property name="prefix" value="/WEB-INF/jsp/" />
+					<beans:property name="suffix" value=".jsp" />
+				</beans:bean>
+				
+			</beans:list>
+		</beans:property>
+		
+		<beans:property name="defaultViews">
+			<beans:list>
+				<!-- json View -->
+				<beans:bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" />
+				
+				<!-- xml View -->
+				<beans:bean class="org.springframework.web.servlet.view.xml.MarshallingView">
+					<beans:constructor-arg>
+						<beans:bean class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+							<beans:property name="packagesToScan">
+								<beans:list>
+									<beans:value>com.bizon.front.dto.*.*</beans:value>
+								</beans:list>
+							</beans:property>
+						</beans:bean>
+					</beans:constructor-arg>				
+				</beans:bean>
+						
+			</beans:list>
+		</beans:property>
+		
+	</beans:bean>
+	
+	
+	
+	<!-- 파일업로드 설정 -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+  		<beans:property name="maxUploadSize" value="100000000000" />
+  		<beans:property name="uploadTempDir" ref="uploadDirResource" />
+	</beans:bean>
+
+	<beans:bean id="uploadDirResource" class="org.springframework.core.io.FileSystemResource">
+		<beans:constructor-arg>
+			<beans:value>D:/java/yck/eclipse/WorkSpace/spring3/src/main/webapp/tmp</beans:value>
+		</beans:constructor-arg>
+	</beans:bean>
 	
 
-	
 </beans:beans>

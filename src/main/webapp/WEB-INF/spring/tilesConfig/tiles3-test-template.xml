@@ -5,19 +5,18 @@
        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
   <!-- 
   	2013.06.11
-  	비즈온 유창근
-  	Tile Template 파일을 설정한 xml이다
+	레이아웃을 url로 다르게 매칭시켜야 할 때는 여기서 기입하여 개발
    -->     
    
    <tiles-definitions>
    
-	<definition name="baseLayout" template="/WEB-INF/jsp/tilesTemplate/dynamicLayout/layout.jsp">
-		<put-attribute name="body" value="/WEB-INF/jsp/tilesTemplate/dynamicLayout/body.jsp" />
+	<definition name="test_baseLayout" template="/WEB-INF/jsp/tilesTemplate/customLayout/layout.jsp">
+		<put-attribute name="body" value="/WEB-INF/jsp/tilesTemplate/customLayout/body.jsp" />
 	</definition>
 	
 	
 	
-   	<definition name="main/yck/yck" extends="baseLayout">
+   	<definition name="tiles/yck/yck" extends="test_baseLayout">
    		<put-attribute name="body" value="/WEB-INF/jsp/yck/yck.jsp" />
    	</definition>
    	

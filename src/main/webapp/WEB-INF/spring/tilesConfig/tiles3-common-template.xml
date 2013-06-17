@@ -16,15 +16,12 @@
 	</definition>
 	
 	
-	<!-- index.view , login.view 같은 경우는 타일즈를 타지 않게 한다 데쉬보드성 페이지는 재처리.. -->
-	
-	
-   	<definition name="*/*" extends="baseLayout">
+   	<definition name="tiles/*/*" extends="baseLayout">
    		<put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}.jsp" />
    	</definition>
    	
 	
-	<definition name="*/*/*" extends="baseLayout">
+	<definition name="tiles/*/*/*" extends="baseLayout">
    		<put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}/{3}.jsp" />
    	</definition>
 	    

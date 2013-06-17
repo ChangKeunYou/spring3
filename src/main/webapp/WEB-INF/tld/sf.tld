@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+  version="2.0">
+    
+  <description>111</description>
+  <display-name>111</display-name>
+  <tlib-version>1.1</tlib-version>
+  <short-name>sf</short-name>
+  <uri>/sf</uri>
+
+  <function>
+    <description>
+      Config value get
+    </description>
+    <name>getConfigValue</name>
+    <function-class>com.bizon.front.config.ConfigManager</function-class>
+    <function-signature>java.lang.String getValue(java.lang.String)</function-signature>
+    <example>
+      ${sf:getConfigValue(String key)}
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      DateUtil
+    </description>
+    <name>getCurDate</name>
+    <function-class>com.bizon.front.util.DateUtil</function-class>
+    <function-signature>java.lang.String getCurDate(java.lang.String)</function-signature>
+    <example>
+      ${sf:getCurDate(String key)}
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      DateUtil
+    </description>
+    <name>getDayOfCurrWeek</name>
+    <function-class>com.bizon.front.util.DateUtil</function-class>
+    <function-signature>java.lang.String getDayOfCurrWeek()</function-signature>
+    <example>
+      ${sf:getDayOfCurrWeek()}
+    </example>
+  </function>
+  
+  <!-- 공통코드 정보 Get -->
+  <function>
+    <description>
+      CommonCodeVal HtmlSelectOptionList get
+    </description>
+    <name>getCodeValueOptionList</name>
+    <function-class>com.bizon.front.util.CommonCodeUtil</function-class>
+    <function-signature>java.lang.String getCodeValueOptionList(java.lang.String, java.lang.String)</function-signature>
+    <example>
+      ${sf:getCodeValueOptionList(String cdId, String cdVal)}
+    </example>
+  </function>
+    
+  <function>
+    <description>
+      CommonCodeNm get
+    </description>
+    <name>getCodeNm</name>
+    <function-class>com.bizon.front.util.CommonCodeUtil</function-class>
+    <function-signature>java.lang.String getCodeNm(java.lang.String)</function-signature>
+    <example>
+      ${sf:getCodeNm(String cdId)}
+    </example>
+  </function>
+  
+  <function>
+    <description>
+      CommonCodeValNm get
+    </description>
+    <name>getCodeValNm</name>
+    <function-class>com.bizon.front.util.CommonCodeUtil</function-class>
+    <function-signature>java.lang.String getCodeValNm(java.lang.String,java.lang.String)</function-signature>
+    <example>
+      ${sf:getCodeValNm(String cdId, String cdVal)}
+    </example>
+  </function>  
+    
+  <function>
+    <description>
+      CommCodeValueList get
+    </description>
+    <name>getCodeValueList</name>
+    <function-class>com.bizon.front.util.CommonCodeUtil</function-class>
+    <function-signature>java.lang.String getCodeValueList()</function-signature>
+    <example>
+      ${sf:getCodeValueList()}
+    </example>
+  </function>
+        
+</taglib>

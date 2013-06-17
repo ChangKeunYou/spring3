@@ -7,11 +7,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.bizon.front.service.module.AbsService;
 
 /**
  * 2012.06.17
@@ -24,28 +27,32 @@ import org.springframework.web.bind.annotation.RequestMethod;
  */
 @Controller
 @RequestMapping(value="/main",method = {RequestMethod.GET, RequestMethod.POST})
-public class TilesForwardController {
+public class TilesForwardController extends AbsService{
 		
 	 private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	 
+	 
 	 @RequestMapping(value="/{path1}")
 	 public String forwardTilesPage(@PathVariable String path1,Locale locale, Model model , HttpServletRequest request,HttpServletResponse response){
 		 logger.info("Tiles3PageForward=>/WEB-INF/jsp/" + path1 + ".jsp");
-		 return path1;
+		 logger.info("Tiles3FileConfig=>tiles/" + path1);
+		 return "tiles/" + path1;
 	 }
 	
 	
 	 @RequestMapping(value="/{path1}/{path2}")
 	 public String forwardTilesPage(@PathVariable String path1,@PathVariable String path2,Locale locale, Model model , HttpServletRequest request,HttpServletResponse response){
 		 logger.info("Tiles3PageForward=>/WEB-INF/jsp/" + path1 + "/" + path2 + ".jsp");
-		 return path1 + "/" + path2;
+		 logger.info("Tiles3FileConfig=>tiles/" + path1 + "/" + path2);
+		 return "tiles/" + path1 + "/" + path2;
 	 }
 	 
 	 @RequestMapping(value="/{path1}/{path2}/{path3}")
 	 public String forwardTilesPage(@PathVariable String path1,@PathVariable String path2,@PathVariable String path3,Locale locale, Model model , HttpServletRequest request,HttpServletResponse response){
 		 logger.info("Tiles3PageForward=>/WEB-INF/jsp/" + path1 + "/" + path2 + "/" + path3 + ".jsp");
-		 return path1 + "/" + path2 + "/" + path3;
+		 logger.info("Tiles3FileConfig=>tiles/" + path1 + "/" + path2 + "/" + path3);
+		 return "tiles/" + path1 + "/" + path2 + "/" + path3;
 	 }
 	
 	

@@ -32,8 +32,8 @@
 	<servlet-mapping>
 		<servlet-name>bizonServlet</servlet-name>
 		<url-pattern>*.view</url-pattern><!-- mail -->
-		<url-pattern>*.do</url-pattern><!-- business area return 각종 스트림.. -->
 		<url-pattern>*.pop</url-pattern><!-- 팝업 -->
+		<url-pattern>*.do</url-pattern><!-- business area return 각종 스트림.. -->
 		<url-pattern>*.json</url-pattern><!-- business area return json -->
 		<url-pattern>*.xml</url-pattern><!-- business area return xml -->
 	</servlet-mapping>

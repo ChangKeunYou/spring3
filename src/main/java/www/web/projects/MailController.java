@@ -1,5 +1,6 @@
 package www.web.projects;
 
+import java.io.File;
 import java.io.PrintWriter;
 import java.util.Date;
 import java.util.Locale;
@@ -26,6 +27,8 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 메일 테스트 
@@ -46,8 +49,7 @@ public class MailController {
 	 private Logger logger = LoggerFactory.getLogger(this.getClass());
 	 
 	 
-	 
-	 @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
+	 @RequestMapping(method = {RequestMethod.GET,RequestMethod.POST})
 	 public void mailSendTest(HttpSession session, ModelMap model,HttpServletRequest request, HttpServletResponse response){
 		 
 		 //logger.info("여기탄다???");
@@ -86,12 +88,15 @@ public class MailController {
 	 
 	   }
 	 
-	 
+	 /*
+	  * TilesForwardController 부분에서 포워딩 하도록 설정 사용안함
 	 @RequestMapping(value="/mail/mailTest.view" , method = {RequestMethod.GET, RequestMethod.POST})
 	 public String mailPage(Locale locale, Model model , HttpServletRequest request,HttpServletResponse response){
 		 logger.info("test1");
 		 return "mail/mailTest";
 	 }
+	 */
+	 
 	 
 	 
 	private void getJsonReturn(ModelMap model, HttpServletRequest request, HttpServletResponse response) {
@@ -108,13 +113,35 @@ public class MailController {
 					sb.append("\"code\"").append(":\"").append(model.get("code").toString().trim()).append("\",");
 					sb.append("\"message\"").append(":\"").append(model.get("message").toString().trim()).append("\"");
 				sb.append("}");
-			logger.info("parsing=>" + sb.toString());	
+			logger.info("parsing111111=>" + sb.toString());	
 			out.println(sb.toString());//json리턴
 		}catch(Exception e){
 			logger.error("JsonReturnFailException=" + e.getMessage());
 		}finally{
 			out.close();
 		}
+	}
+	
+	
+	
+	//외부에서 서브및 하여 파일 전송되는지 테스트 해당 메서드 사용안함
+	@RequestMapping(value="/file/filetest.do" , method = {RequestMethod.GET, RequestMethod.POST})
+	public void  multiFileUpload(HttpSession session, ModelMap model,HttpServletRequest request, HttpServletResponse response,
+			@RequestParam(value="corpoRateFile",required=false) MultipartFile corpoRateFile)throws Exception{
+		try{  
+			
+			if(corpoRateFile == null){
+				logger.info("들어오는 파일 없음...");
+			}else{
+				logger.info("file=>" + corpoRateFile.getOriginalFilename());
+			}
+			
+			corpoRateFile.transferTo(new File("C:/" + corpoRateFile.getOriginalFilename()));
+			
+		}catch(Exception e){
+			throw e;  
+		}finally{}
+		
 	}
 		
 	 

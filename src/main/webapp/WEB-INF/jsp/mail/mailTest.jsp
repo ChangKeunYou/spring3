@@ -3,11 +3,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <c:set var="root" value="${pageContext.request.contextPath}"    scope="page" />
-<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>mail 전송 테스트</title>
 
 
 <script src="${root}/resources/js/common/jquery-1.8.3.min.js"></script>
@@ -38,12 +33,9 @@
 </script>
 
 
-</head>
-<body>
 	
 	
 	<form method="post" id="myForm" name="myForm">
-		
 		
 		
 		<table id="oTbl1" border="0">
@@ -90,7 +82,3 @@
 		<div style="border: solid 1px red; width: 600px; height: 50px; display: none;"></div>
 		
 	</form>
-	
-	
-</body>
-</html>

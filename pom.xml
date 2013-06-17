@@ -37,6 +37,13 @@
       <url>http://download.java.net/maven/glassfish</url>
     </repository>
 	  
+	  
+	<repository>
+        <id>springbyexample.org</id>
+        <name>Spring by Example</name>
+        <url>http://www.springbyexample.org/maven/repo</url>
+    </repository>
+	  
 	 </repositories>
 	
 	<dependencies>
@@ -299,7 +306,8 @@
 	    <version>3.0.0</version>
 	  </dependency>
 	
-   
+	
+	
 	</dependencies>
 
 
