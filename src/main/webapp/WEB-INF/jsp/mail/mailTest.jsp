@@ -1,14 +1,29 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<c:set var="root" value="${pageContext.request.contextPath}"    scope="page" />
-
-
-<script src="${root}/resources/js/common/jquery-1.8.3.min.js"></script>
-
+<%@ include file="../include/ssi.jsp" %>
 
 <script type="text/javascript">
+
+	
+$.ajaxSetup({
+	type:'POST',
+	dataType:'json',
+	async: true,					
+	beforeSend :function(XMLHttpRequest){
+		//fnShowLoading();
+		//processingCount++;
+		alert("ajax 센트 트루");
+		XMLHttpRequest.setRequestHeader("AJAX", "true");//ajax 통신이라는 requestHeader 정보에 삽입.
+	},				
+	error:function(XMLHttpRequest, textStatus, errorThrown){
+
+		
+	},
+	complete:function(responseText, textStatus) {
+		processingCount--;
+		if(processingCount <= 0) fnCloseLoading();
+	}
+});
+	
 	$(function(){
 		
 		$("#mail_btn").click(function(e){
@@ -19,7 +34,7 @@
 			
 			if(confirm("메일을 전송 하시겠습니까?")){
 			
-				$.getJSON("${root}/mail/.json",o,function(data,status){
+				$.getJSON("${root}/mail/mailSendTest.json",o,function(data,status){
 					if(status === "success"){
 						alert(data.message);
 					}

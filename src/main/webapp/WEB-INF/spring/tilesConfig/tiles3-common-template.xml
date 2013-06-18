@@ -7,12 +7,16 @@
   	2013.06.11
   	비즈온 유창근
   	Tile Template 파일을 설정한 xml이다
-   -->     
+  -->     
    
    <tiles-definitions>
    
-	<definition name="baseLayout" template="/WEB-INF/jsp/tilesTemplate/baseLayout/layout.jsp">
-		<put-attribute name="body" value="/WEB-INF/jsp/tilesTemplate/baseLayout/body.jsp" />
+	<definition name="baseLayout" template="/WEB-INF/jsp/tilesTemplate/baseLayout/baseLayout_Master.jsp">
+		<put-attribute name="include" value="/WEB-INF/jsp/tilesTemplate/baseLayout/baseLayout_Include.jsp" />
+		<put-attribute name="header" value="/WEB-INF/jsp/tilesTemplate/baseLayout/baseLayout_Header.jsp" />
+		<put-attribute name="left" value="/WEB-INF/jsp/tilesTemplate/baseLayout/baseLayout_Left.jsp" />
+		<put-attribute name="body" value="/WEB-INF/jsp/tilesTemplate/baseLayout/baseLayout_Content.jsp" />
+		<put-attribute name="footer" value="/WEB-INF/jsp/tilesTemplate/baseLayout/baseLayout_Footer.jsp"/>
 	</definition>
 	
 	

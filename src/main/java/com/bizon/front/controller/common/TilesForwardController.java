@@ -23,7 +23,7 @@ import com.bizon.front.service.module.AbsService;
  * 
  * 해당 컨트롤러의 목적은 동적 URL을 받아 해당 jsp가 있는 곳으로 포워딩 해주는 컨트롤러이다
  * 허나 실제 변경이 되는 jsp 즉 컨텐츠 부분의 jsp는 tiles 설정된 부분에서 변경이 가해진다.  
- *
+ * 
  */
 @Controller
 @RequestMapping(value="/main",method = {RequestMethod.GET, RequestMethod.POST})

@@ -1,14 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Insert title here</title>
-<script type="text/javascript">
+<%@ include file="../../include/ssi.jsp" %>
 
-</script>
-</head>
-<body>
+<!-- css include area -->
+<link href="${root}/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<link href="${root}/resources/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
 
-</body>
-</html>
+<!-- javascript include area -->
+<script type="text/javascript" src="${root}/resources/js/common/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="${root}/resources/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="${root}/resources/js/common/jquery.form.js"></script>
+<script type="text/javascript" src="${root}/resources/js/common/jquery.blockUI.js"></script>
+<script type="text/javascript" src="${root}/resources/js/common/jquery.browser.js"></script>
+<script type="text/javascript" src="${root}/resources/js/common/jquery.livequery.js"></script>
+<script type="text/javascript" src="${root}/resources/js/common/debug.js"></script>
+<script type="text/javascript" src="${root}/resources/js/common/loading.js"></script>
