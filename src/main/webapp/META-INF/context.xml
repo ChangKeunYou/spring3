@@ -130,8 +130,7 @@
      		/>		
      		
      		
-     		<!-- 메일관련 jndi -->
-     	 	
+     	<!-- 메일관련 jndi --> 	
 	     <Resource 	auth="Container"
 	     			name="bizonMail" 
 	        		type="javax.mail.Session"

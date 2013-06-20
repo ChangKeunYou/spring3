@@ -1,14 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Insert title here</title>
-<script type="text/javascript">
-
-</script>
-</head>
-<body>
-
-</body>
-</html>
+<%@ include file="../../include/ssi.jsp" %>
+<div class="span2">
+   <div class="well sidebar-nav">
+     <ul class="nav nav-list">
+       <li class="nav-header">Sidebar</li>
+       <li class="active"><a href="#">Link</a></li>
+       <li><a href="#">Link</a></li>
+       <li><a href="#">Link</a></li>
+       <li><a href="#">Link</a></li>
+       <li class="nav-header">Sidebar</li>
+       <li><a href="#">Link</a></li>
+       <li><a href="#">Link</a></li>
+       <li><a href="#">Link</a></li>
+       <li><a href="#">Link</a></li>
+       <li><a href="#">Link</a></li>
+       <li><a href="#">Link</a></li>
+       <li class="nav-header">Sidebar</li>
+       <li><a href="#">Link</a></li>
+       <li><a href="#">Link</a></li>
+       <li><a href="#">Link</a></li>
+     </ul>
+   </div><!--/.well -->
+</div><!--/span-->

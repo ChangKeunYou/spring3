@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
  * @Description SQLID로 sql 실행하기 위한 DAO
  * @since 2013.05.09
  *  
- * Copyright (주)프론티어솔루션 All right reserved.
  */
 public class DaoComExec extends SqlSessionDaoSupport {
 

@@ -2,9 +2,9 @@
 <%@ include file="../../include/ssi.jsp" %>
 
 <!-- css include area -->
-<link href="${root}/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-<link href="${root}/resources/bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet" />
-
+<link href="${root}/resources/bootstrap/css/bootstrap.css" rel="stylesheet" />
+<link href="${root}/resources/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" />
+<link href="${root}/resources/css/debug.css" rel="stylesheet" />
 <!-- javascript include area -->
 <script type="text/javascript" src="${root}/resources/js/common/jquery-1.10.1.min.js"></script>
 <script type="text/javascript" src="${root}/resources/bootstrap/js/bootstrap.min.js"></script>

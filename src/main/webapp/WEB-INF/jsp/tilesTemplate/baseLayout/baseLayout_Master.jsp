@@ -9,8 +9,38 @@
 <title>비즈온ERP</title>
 	<!-- include tiles3 header -->
 	<tiles:insertAttribute name="include" />
+	
+	<script type="text/javascript">
+		
+	/*	
+	var size_util = {
+			
+			resize : function(){
+				var w_h =  $(window).height();
+				var m_r_f = $("#master-row-fluid").height();
+				
+				if(w_h > 700){
+					console.log("700 >" + ((w_h-m_r_f) + 341));
+					$("#master-row-fluid").css({"height" :  ((w_h-m_r_f) + 341) });
+				}else{
+					console.log("700 <");
+					$("#master-row-fluid").css({"height" : "auto"});
+				}
+			}	
+		};
+		
+		$(window).resize(function() {
+			size_util.resize();
+		});
+		
+		$(document).ready(function(){
+			size_util.resize();
+		});
+		*/
+		
+	</script>
 </head>
-<body>
+<body id="all_area">
 	
 	<!-- 모달 로딩 start -->
 	<div id="loadingArea" style="display: none;">
@@ -18,10 +48,16 @@
 		<div id="modalWindow"></div>
 	</div>   
 	<!-- 모달 로딩 end -->
-	 
+	<tiles:insertAttribute name="header" />
+	 <div class="container-fluid">
+      	<div class="row-fluid" id="master-row-fluid">
+			<tiles:insertAttribute name="left" />
+			<tiles:insertAttribute name="body" />
+		</div>
+		<tiles:insertAttribute name="footer" />
+	</div>	
+		
 	
-	
-	<tiles:insertAttribute name="body" />
 	
 </body>
 </html>
