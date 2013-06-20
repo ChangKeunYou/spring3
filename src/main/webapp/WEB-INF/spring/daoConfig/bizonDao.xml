@@ -4,7 +4,10 @@
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:jaxws="http://cxf.apache.org/jaxws"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc 
 						http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
 						http://www.springframework.org/schema/beans 
@@ -18,11 +21,117 @@
 						http://www.springframework.org/schema/jdbc  
 						http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd
 						http://www.springframework.org/schema/security 
-						http://www.springframework.org/schema/security/spring-security-3.2.xsd">	
-						
+						http://www.springframework.org/schema/security/spring-security-3.1.xsd
+						http://www.springframework.org/schema/util
+       					http://www.springframework.org/schema/util/spring-util-3.2.xsd">	
+	
+	<!-- Local DB -->					
+    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="resourceRef" value="true" />
+		<property name="jndiName" value="jdbc/Neomodule" />
+	</bean>
 		
-		
-		
-		
+	
+	<!-- 외부디비 -->
+	<bean id="dataSourceForMtgi" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="resourceRef" value="true" />
+		<property name="jndiName" value="jdbc/IMDB" />
+	</bean>
+	
+	
+	<bean id="logDataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+	  <constructor-arg ref="dataSource" />
+	  <property name="logFormatter">
+	   <bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+	    <property name="loggingType" value="MULTI_LINE" />
+	    <property name="sqlPrefix" value="SQL=>" /> 
+	   </bean>
+	  </property>
+	 </bean>
+	
+	
+	<bean id="logDataSourceForMtgi" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+	  <constructor-arg ref="dataSourceForMtgi" />
+	  <property name="logFormatter">
+	   <bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+	    <property name="loggingType" value="MULTI_LINE" />
+	    <property name="sqlPrefix" value="SQL=>" /> 
+	   </bean>
+	  </property>
+	 </bean>
+	
+	
+	<!-- 트랜잭션 설정 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="logDataSource" />
+	</bean>
+	
+	<!-- SMTP 메일발송 DB -->
+	<bean id="transactionManagerForSMTP" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="logDataSourceForMtgi" />
+	</bean>
+	
+	
+	<!-- 밴더설정 -->
+	<bean id="vendorProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">  
+        <property name="properties">  
+        	<props>  
+               	<prop key="SQL Server">sqlserver</prop>  
+            	<prop key="DB2">db2</prop>
+            	<prop key="Derby">derby</prop> 
+               	<prop key="Oracle">oracle</prop>  
+                <prop key="MySQL">mysql</prop>  
+           	</props>  
+        </property>  
+   	</bean>
+	
+	
+	<bean id="databaseIdProvider" class="org.apache.ibatis.mapping.VendorDatabaseIdProvider">  
+        <property name="properties" ref="vendorProperties"/>  
+    </bean>  	
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="logDataSource" />
+        <property name="databaseIdProvider" ref="databaseIdProvider"/>
+        <property name="configLocation" value="/WEB-INF/classes/mappers/bizon-mybatis-config.xml" />
+        <!--  
+        <property name="typeAliasesPackage" value="com.bizon.front.dto.manage,com.bizon.front.vo.manage,com.bizon.front.dto.mail,com.bizon.front.vo.mail,com.bizon.front.dto.common,com.bizon.front.dto.customer"/>
+         -->
+         <property name="typeAliasesPackage" value="com.bizon.front.vo , com.bizon.front.dto"/>
+	</bean>
+	
+	
+	<bean id="sqlSessionFactoryForMtgi" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="logDataSourceForMtgi" />
+        <property name="databaseIdProvider" ref="databaseIdProvider"/>
+        <property name="configLocation" value="/WEB-INF/classes/mappers/mtgi-mybatis-config.xml" />
+        <!--  
+        <property name="typeAliasesPackage" value="com.bizon.front.dto.manage,com.bizon.front.vo.manage,com.bizon.front.dto.mail,com.bizon.front.vo.mail,com.bizon.front.dto.common,com.bizon.front.dto.customer"/>
+         -->
+         <property name="typeAliasesPackage" value="com.bizon.front.vo , com.bizon.front.dto"/>
+	</bean>	
+	
+   <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <!--  
+        <property name="basePackage" value="com.bizon.front.dao.manage,com.bizon.front.dao.cea,com.bizon.front.dao.mbr,com.bizon.front.dao.mail,com.bizon.front.dao.common,com.bizon.front.dao.cst,com.bizon.front.dao.idx" />
+        
+        -->
+       <property name="basePackage" value="com.bizon.front.dao.*" />
+    </bean>
+	
+	
+    <bean id="daoComExec" class="com.bizon.front.dao.com.DaoComExec">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" /> 
+    </bean> 
+	
+	
+    <bean id="daoComExecForMtgi" class="com.bizon.front.dao.com.DaoComExec">
+        <property name="sqlSessionFactory" ref="sqlSessionFactoryForMtgi" /> 
+    </bean> 
+    
+    
+ 
+	
+	
 						
 </beans>						

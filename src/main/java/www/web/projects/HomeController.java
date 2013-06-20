@@ -22,6 +22,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+//import com.bizon.front.dao.manage.UserDao;
+import com.bizon.front.dao.mbr.DaoMbr;
+
 /**
  * Handles requests for the application home page.
  */
@@ -33,10 +36,13 @@ public class HomeController {
 	
 	 @Autowired
 	 private JavaMailSender mailSender;
-    
+    /*
+	@Autowired
+	 private UserDao userDao;
 	
-
-	
+	@Autowired
+	private DaoMbr daoMbr;
+	*/
 	/*
 	 @Resource
 	 private MailSender mailSender;

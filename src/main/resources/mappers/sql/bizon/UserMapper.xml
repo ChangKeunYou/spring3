@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="euc-kr"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bizon.front.dao.manage.UserDao">
+	
+	<resultMap id="userInfoMap" type="UserDto">
+        <result property="id" 					column="id"	/>
+        <result property="passwd" 				column="passwd"	/>
+        <result property="createdOn" 			column="created_on"	/>
+        <result property="userLevel" 			column="user_level" 		/>
+        <result property="userType" 			column="user_type" 	/>
+        <result property="managerAuth" 			column="manager_auth" 	/>
+       	<result property="certDn" 				column="cert_dn" 	/>
+       	<result property="certPk" 				column="cert_pk" 	/>
+       	<result property="status" 				column="status" 	/>
+       	<result property="idn" 					column="idn" 	/>
+       	<result property="name" 				column="name" 	/>
+       	<result property="email" 				column="email" 	/>
+       	<result property="tel" 					column="tel" 	/>
+       	<result property="mobile" 				column="mobile" 	/>
+       	<result property="addr" 				column="addr" 	/>
+       	<result property="remark" 				column="remark" 	/>
+       	<result property="addr2" 				column="addr2" 	/>
+       	<result property="psno" 				column="psno" 	/>
+       	<result property="userId" 				column="user_id" 	/>
+       	<result property="entryAddress" 		column="entry_address" 	/>
+       	<result property="rollGrpCd" 		    column="rollgrp_cd" 	/>
+       	<result property="signatureYn" 		    column="signature_yn" 	/>
+       	<result property="peerEncryptedYn" 		column="peer_encrypt_yn" 	/>
+       	<result property="recordSign" column="record_sign" javaType="byte[]" jdbcType="BLOB"/>
+       	<result property="expired" 		   		column="mail_deposit_status" 	/>
+       	<result property="period" 				column="mail_deposit_term" 	/>
+    </resultMap>
+
+	<resultMap id="userInfoMap_v" type="UserDto">
+        <result property="userId" 				column="mbr_id"	/>
+        <result property="passwd" 				column="passwd"	/>
+        <result property="userType" 			column="user_type" 	/>
+    </resultMap>
+    
+    
+    <resultMap id="userInfoListMap" type="UserListDto">
+        <result property="id" 					column="id"	/>
+        <result property="passwd" 				column="passwd"	/>
+        <result property="createdOn" 			column="created_on"	/>
+        <result property="userLevel" 			column="user_level" 		/>
+        <result property="userType" 			column="user_type" 	/>
+        <result property="managerAuth" 			column="manager_auth" 	/>
+       	<result property="certDn" 				column="cert_dn" 	/>
+       	<result property="certPk" 				column="cert_pk" 	/>
+       	<result property="status" 				column="status" 	/>
+       	<result property="idn" 					column="idn" 	/>
+       	<result property="name" 				column="name" 	/>
+       	<result property="email" 				column="email" 	/>
+       	<result property="tel" 					column="tel" 	/>
+       	<result property="mobile" 				column="mobile" 	/>
+       	<result property="addr" 				column="addr" 	/>
+       	<result property="remark" 				column="remark" 	/>
+       	<result property="addr2" 				column="addr2" 	/>
+       	<result property="psno" 				column="psno" 	/>
+       	<result property="userId" 				column="user_id" 	/>
+       	<result property="entryAddress" 		column="entry_address" 	/>
+    </resultMap>
+    
+	<resultMap id="entryMap" type="EntryDto" >
+		<result property="createdOn" 		    column="created_on"	/>
+        <result property="entryAddress" 		column="entry_address"	/>
+        <result property="delYn" 				column="del_yn"	/>
+        <result property="entryCeoName" 		column="entry_ceo_name" 		/>
+        <result property="userType" 			column="user_type" 	/>
+        <result property="entryStaus" 			column="entry_staus" 	/>
+       	<result property="entryDueDate" 		column="entry_due_date" 	/>
+       	<result property="peerEncrypt" 			column="peer_encrypt" 	/>
+       	<result property="renewalRequestYn" 	column="renewal_request_yn" 	/>
+       	<result property="entryRemark" 			column="entry_remark" 	/>
+       	<result property="entryName" 			column="entry_name" 	/>
+       	<result property="entryNum" 			column="entry_num" 	/>
+       	<result property="entryNmType" 			column="entry_num_type" 	/>
+       	<result property="entryAddr" 			column="entry_addr" 	/>
+       	<result property="entryEmail" 			column="entry_email" 	/>
+       	<result property="entryPhone" 			column="entry_phone" 	/>
+       	<result property="entryMobile" 			column="entry_mobile" 	/>
+       	<result property="idInfoOpenYn" 		column="id_info_open_yn" 	/>
+       	<result property="adminAssignYn" 		column="admin_assign_yn" 	/>
+       	<result property="representId" 			column="represent_id" 	/>
+	</resultMap>
+		       
+		     
+		    
+	<resultMap id="userMap" type="HashMap">
+        <result property="userid" 			column="userid" />
+        <result property="addr" 			column="addr"	/>
+        <result property="addr2" 			column="addr2"	/>
+        <result property="email" 			column="email" 		/>
+        <result property="idn" 				column="idn" 	/>
+        <result property="managerAuth" 		column="managerAuth" 	/>
+       	<result property="mobile" 			column="mobile" 	/>
+       	<result property="username" 		column="username" 	/>
+       	<result property="passwd" 			column="passwd" 	/>
+       	<result property="rollGrp" 			column="rollGrp" 	/>
+       	<result property="signatureYn" 		column="signatureYn" 	/>
+       	<result property="tel" 				column="tel" 	/>
+       	<result property="userLevel" 		column="userLevel" 	/>
+       	<result property="idnType" 			column="idnType" 	/>
+       	<result property="peerEncryptedYn" 	column="peerEncryptedYn" 	/>
+       	<result property="owner_tel" 		column="owner_tel" 	/>
+       	<result property="owner_mobile" 	column="owner_mobile" 	/>
+       	<result property="owner_addr" 		column="owner_addr" 	/>
+       	<result property="owner_addr2" 		column="owner_addr2" 	/>
+       	<result property="owner_email" 		column="owner_email" 	/>
+       	<result property="owner_name" 		column="owner_name" 	/>
+       	<result property="owner_fax" 		column="owner_fax" 	/>
+       	<result property="certPk" 			column="certPk" 	/>
+       	<result property="signCert" 	    column="signCert" 	/>
+       	<result property="recordSign" 		column="recordSign" javaType="byte[]" jdbcType="BLOB"/>
+       	<result property="status" 			column="status" 	/>
+    </resultMap>
+	
+	<!-- 자체구축 여부 ecp에서 확인 -->
+	<select id="setPeerTypeCheck" parameterType="String" resultType="h_map">
+		<!-- 회원가입만 하고 등록자는 등록 안했을 경우 자체구축 여부는 A -->
+		<!-- 회원가입후 등록자 등록해서 MBR_ID 엮었을 경우 자체구축은 무조건 1 : 1 관리하기로 정책확정 그외 1:N으로 관리 -->
+		SELECT *
+	    FROM(
+	          SELECT            A.MBR_ID,
+	                            NVL(B.SELF_DEV_BUSS_YN,'A') AS SELF_DEV_BUSS_YN,
+	                            ROWNUM AS RNUM
+	          FROM              BF_ECP_USER  A
+	          LEFT OUTER JOIN   BF_ECP_ENTRY  B
+	          ON                A.MBR_ID = B.MBR_ID
+	          WHERE             1 = 1
+	          AND               A.MBR_ID IN (#{param1})
+	       ) C
+	    WHERE 1 = 1
+	    AND   C.RNUM BETWEEN 1 AND 1
+		
+	</select>
+	
+	<select id="selectUserMap" parameterType="String" resultMap="userMap">
+			<!-- 더블 쿼티션으로 묶어야 as 소문자 가능 -->
+		SELECT    MBR_ID AS "userid",
+		          NVL(ADDR1,'') AS "addr",
+		          NVL(ADDR2,'') AS "addr2",
+		          NVL(EMAIL,'') AS "email",
+		          NVL(IDN,'') AS "idn",
+		          NVL(MANAGER_AUTH,'') AS "managerAuth",
+		          NVL(MOBILE,'') AS "mobile",
+		          NVL(NAME,'') AS "username",
+		          PASSWD    AS "passwd",
+		          NVL(ROLLGRP_CD,'') AS "rollGrp",
+		          NVL(SIGNATURE_YN,'') AS "signatureYn",
+		          NVL(TEL,'')       AS "tel",
+		          USER_LEVEL AS "userLevel",
+		          NVL(USER_TYPE,'') AS "idnType",
+		          NVL(PEER_ENCRYPT_YN,'') AS "peerEncryptedYn",
+		          NVL(CGP_TELNO,'') AS "owner_tel",
+		          NVL(CGP_MOBILENO,'') AS "owner_mobile",
+		          NVL(CGP_ADDR1,'') AS "owner_addr",
+		          NVL(CGP_ADDR2,'') AS "owner_addr2",
+		          NVL(CGP_EMLADDR,'') AS "owner_email",
+		          NVL(CGP_NM , '') AS "owner_name",
+		          NVL(CGP_FAXNO , '') AS "owner_fax",
+		          NVL(CERT_PK , '') AS "certPk",  
+		          NVL(CERT_DN , '') AS "signCert",
+		          RECORD_SIGN AS "recordSign",
+		          STATUS AS "status"
+		FROM      BF_ECP_USER 
+		WHERE     1 = 1
+		AND       MBR_ID IN ( #{param1} )
+	</select>
+	
+	
+   	<select id="selectUser_back_up" parameterType="string" resultMap="userInfoMap" >
+		SELECT 
+		  MBR_ID
+		  ,PASSWD
+		  /*,CREATED_ON*/
+		  ,USER_LEVEL
+		  ,USER_TYPE
+		  ,MANAGER_AUTH
+		  ,STATUS
+		  ,CERT_DN
+		  ,CERT_PK
+		  ,NAME
+		  ,IDN
+		  ,ADDR1 AS ADDR
+		  ,TEL
+		  ,MOBILE
+		  ,EMAIL
+		  ,REMARK
+		  ,ADDR2
+		  ,PSNO
+		  ,USER_ID
+		  ,ENTRY_ADDRESS
+		  ,ROLLGRP_CD
+		  ,SIGNATURE_YN
+		  ,RECORD_SIGN
+		  ,PEER_ENCRYPT_YN
+		  ,MAIL_DEPOSIT_STATUS
+		  ,MAIL_DEPOSIT_TERM
+		FROM BF_ECP_USER 
+         WHERE MBR_ID =  #{_parameter}
+	</select>
+
+   	<select id="selectSystemUser" parameterType="string" resultMap="userInfoMap" >
+		SELECT 
+		  MBR_ID AS "id"
+		  ,PASSWD As "passwd"
+		  ,USER_LEVEL
+		  ,USER_TYPE
+		  ,STATUS
+		  ,CERT_DN
+		  ,NAME
+		  ,IDN
+		  ,ADDR1
+		  ,ADDR2
+		  ,TEL
+		  ,MOBILE
+		  ,EMAIL
+		FROM BF_ECP_USER 
+         WHERE USER_TYPE = #{param1}
+         AND USER_LEVEL = #{param2}
+	</select>
+	
+	<select id="selectUserList" parameterType="com.bizon.front.dto.manage.UserDto" resultMap="userInfoListMap" >
+	<![CDATA[
+		SELECT inv1.*
+		  FROM (SELECT rownum AS rnum
+		             , inv1.* 
+		               FROM (
+							  SELECT 
+							  		   ID
+									  ,PASSWD
+									  /*,CREATED_ON*/
+									  ,USER_LEVEL
+									  ,USER_TYPE
+									  ,MANAGER_AUTH
+									  ,STATUS
+									  ,CERT_DN
+									  ,CERT_PK
+									  ,NAME
+									  ,IDN
+									  ,ADDR
+									  ,TEL
+									  ,MOBILE
+									  ,EMAIL
+									  ,REMARK
+									  ,ADDR2
+									  ,PSNO
+									  ,USER_ID
+									  ,ENTRY_ADDRESS
+									  ,ROLLGRP_CD
+									  ,SIGNATURE_YN
+							    FROM 
+							         BF_ECP_USER
+							]]>
+							     WHERE STATUS = 1
+							     AND USER_LEVEL != 9 
+							    <if test="entryAddress != null">AND ENTRY_ADDRESS=#{entryAddress}</if>
+							    <if test="id != null and id != ''">AND ID LIKE'%' || #{id} || '%'</if>
+								<if test="name != null and name != ''">AND NAME LIKE'%' || #{name} || '%'</if>
+							    <if test="userId != null and userId != ''">AND USER_ID  LIKE'%' || #{userId} || '%'</if>
+							    /*ORDER BY CREATED_ON DESC*/
+							      ) inv1
+			    ) inv1
+		  WHERE rnum BETWEEN #{startIndex} AND #{lastIndex}
+	</select>
+	
+	<select id="selectUserListCount" parameterType="com.bizon.front.dto.manage.UserDto" resultType="int" >
+		SELECT 
+			  	COUNT(1) AS total  
+	     FROM 
+			         BF_ECP_USER
+		 WHERE STATUS = 1
+		 AND USER_LEVEL != 9
+	    <if test="entryAddress != null">AND ENTRY_ADDRESS=#{entryAddress}</if>
+	    <if test="id != null and id != ''">AND ID LIKE'%' || #{id} || '%'</if>
+		<if test="name != null and name != ''">AND NAME LIKE'%' || #{name} || '%'</if>
+	    <if test="userId != null and userId != ''">AND USER_ID  LIKE'%' || #{userId} || '%'</if>
+
+	</select>
+	
+	<insert id="insertUserInfo" parameterType="com.bizon.front.vo.manage.UserVO">
+	<![CDATA[
+		INSERT INTO BF_ECP_USER
+		  (ID, PASSWD, USER_LEVEL, USER_TYPE, MANAGER_AUTH, 
+		   CERT_DN, CERT_PK, STATUS, IDN, NAME, EMAIL,
+		   TEL, MOBILE, ADDR, REMARK/*, CREATED_ON*/, ADDR2,
+		   PSNO,USER_ID,ENTRY_ADDRESS,ROLLGRP_CD,SIGNATURE_YN,PEER_ENCRYPT_YN,
+		   RECORD_SIGN, RECORD_SIGN_TYPE,
+		   MAIL_DEPOSIT_STATUS,MAIL_DEPOSIT_TERM
+		  ) 
+		VALUES 
+		   (#{id}, #{passwd,jdbcType=VARCHAR}, #{userLevel}, #{userType}, #{managerAuth},
+		    #{certDn,jdbcType=VARCHAR}, #{certPk,jdbcType=VARCHAR}, #{status}, #{idn,jdbcType=VARCHAR}, #{name}, #{email},
+		    #{tel}, #{mobile}, #{addr}, #{remark}/*, SYSTIMESTAMP*/,#{addr2},
+		    #{psno},#{userId},#{entryAddress},#{rollGrp,jdbcType=CHAR},#{signatureYn,jdbcType=CHAR},#{peerEncryptedYn,jdbcType=CHAR},
+		    #{recordSign,jdbcType=BLOB},'SHA256WithRSA',
+		    #{expired},#{period}
+		    
+		   )
+	]]>
+	</insert>
+	
+	<update id="updateUserStatus" parameterType="List" >
+	<![CDATA[
+		UPDATE BF_ECP_USER SET status = #{status} 
+	]]>
+		<foreach collection="accountIdList" item="id"   open="WHERE id IN (" close=")" separator=",">
+      	 #{id}
+ 		</foreach>
+	</update>
+	
+	<update id="updateUserInfo" parameterType="com.bizon.front.vo.manage.UserVO">
+	<![CDATA[
+		UPDATE BF_ECP_USER 
+		   SET 
+	]]>	 
+	<if test="passwd != null and passwd != ''"><![CDATA[PASSWD=#{passwd},]]></if>
+	<![CDATA[
+        EMAIL=#{email}, MOBILE=#{mobile}, TEL=#{tel},
+        STATUS = #{status}, MANAGER_AUTH = #{managerAuth} , ADDR = #{addr},
+        ROLLGRP_CD =#{rollGrp},PSNO =#{psno}, ADDR2 = #{addr2},
+        PEER_ENCRYPT_YN = #{peerEncryptedYn,jdbcType=CHAR},
+        RECORD_SIGN = #{recordSign ,jdbcType=BLOB},
+        RECORD_SIGN_TYPE = 'SHA256WithRSA',  
+        USER_LEVEL = #{userLevel},
+        MAIL_DEPOSIT_STATUS = #{expired},
+        MAIL_DEPOSIT_TERM =  #{period}    
+    ]]>		        
+  <!--     <if test="cert_dn != null">,CERT_DN=#{cert_dn}</if>
+      <if test="cert_pk != null">,CERT_PK=#{certPK}</if>  -->
+	<![CDATA[
+		 WHERE ID = #{id}
+	]]>
+	</update>
+	
+	<update id="updateDropUser" parameterType="string">
+		<!-- 
+			0 : 등록
+			1 : 승인
+			2 : 삭제
+		 -->
+	 	<![CDATA[
+			UPDATE BF_ECP_USER SET
+			STATUS = 2
+			WHERE ID = #{param1}
+		]]>
+	</update>
+	
+	<select id="selectUserCheck" parameterType="String" resultMap="userInfoMap_v" >
+		SELECT 	MBR_ID,
+		  		PASSWD,
+		  		USER_TYPE
+		FROM 	BF_ECP_USER 
+       WHERE 	MBR_ID = #{param1}
+         AND 	PASSWD = #{param2}
+	</select>
+	
+	<select id="selectEntry"  parameterType="string" resultMap="entryMap">
+	  SELECT 
+  			/*CREATED_ON
+			,*/ENTRY_ADDRESS
+			,DEL_YN
+			,ENTRY_CEO_NAME
+			,USER_TYPE
+			,ENTRY_STAUS
+			,ENTRY_DUE_DATE
+	  FROM 
+	        BF_ECP_ENTRY
+	 WHERE  
+	 		ENTRY_ADDRESS   = #{param1}
+	 <!--  AND   DEL_YN = "N" -->
+	</select>
+	
+	<select id="selectUserId" parameterType="string" resultType="string">
+		SELECT 
+		   ID
+		FROM BF_ECP_USER 
+       WHERE IDN = #{param1}
+         AND NAME = #{param2}
+	</select>	
+
+	<select id="selectUserCnt" parameterType="string" resultType="string">
+		SELECT 
+		   COUNT(*) AS USERCNT
+		FROM BF_ECP_USER 
+       WHERE IDN = #{param1}
+       	 AND ID = #{param2}
+         AND NAME = #{param3}
+	</select>
+	
+	<update id="updateUserPassword" parameterType="string">
+		UPDATE BF_ECP_USER SET
+		PASSWD = #{param1}
+       WHERE ID = #{param2}
+	</update>
+
+	<insert id="insertEntryInfo" parameterType="com.bizon.front.vo.manage.EntryVO">
+	<![CDATA[
+		INSERT INTO BF_ECP_ENTRY
+		  (ENTRY_ADDRESS, ENTRY_NAME, USER_TYPE, RECORD_SIGN, RECORD_SIGN_TYPE) 
+		VALUES 
+		   (#{entryAddress}, #{username}, #{idnType}, #{recordSign, jdbcType=BLOB}, 'SHA256WithRSA')
+	]]>
+	</insert>
+	
+	<select id="selectEntryListCount"  parameterType="com.bizon.front.dto.manage.EntryDto" resultType="int" >
+		 SELECT 
+			  	COUNT(1) AS total  
+		  FROM 
+		        BF_ECP_ENTRY
+		  WHERE 1=1
+		 <if test="entryAddress != null and entryAddress != ''">AND ENTRY_ADDRESS LIKE'%' || #{entryAddress} || '%'</if>
+		 <if test="entryName != null and entryName != ''">AND ENTRY_NAME LIKE'%' || #{entryName} || '%'</if>
+		  /*ORDER BY CREATED_ON DESC*/
+	</select>
+	
+	
+	<select id="selectEntryList" parameterType="com.bizon.front.dto.manage.EntryDto" resultMap="entryMap" >
+		SELECT inv1.*
+		  FROM (SELECT rownum AS rnum
+		             , inv1.* 
+		               FROM (
+							  SELECT 
+						  			/*CREATED_ON
+									,*/ENTRY_ADDRESS
+									,DEL_YN
+									,ENTRY_CEO_NAME
+									,USER_TYPE
+									,ENTRY_STAUS
+									,ENTRY_DUE_DATE
+									,ENTRY_NAME
+							  FROM 
+							        BF_ECP_ENTRY
+							  WHERE 1=1
+							 <if test="entryAddress != null and entryAddress != ''">AND ENTRY_ADDRESS LIKE'%' || #{entryAddress} || '%'</if>
+		 					 <if test="entryName != null and entryName != ''">AND ENTRY_NAME LIKE'%' || #{entryName} || '%'</if>
+							  /*ORDER BY CREATED_ON DESC*/
+						  ) inv1
+			    ) inv1
+		  WHERE rnum BETWEEN #{startIndex} AND #{lastIndex}
+	</select>
+	
+	<delete id="deleteEntry" parameterType="string">
+		DELETE BF_ECP_ENTRY 
+      	WHERE ENTRY_ADDRESS = #{_parameter}
+	</delete>
+	
+	<!-- transaction test 2012.12.28 유창근 -->
+	<insert id="tranSactionTest"  parameterType="h_map">
+	<![CDATA[
+		INSERT INTO TEST_TRANSACTION VALUES (#{id},#{col1},#{col2})
+	]]>
+	</insert>
+	
+	
+	<select id="selectBf_Ecp_Entry" parameterType="String" resultType="int">
+		<![CDATA[	
+			SELECT 		COUNT(*) AS CNT 
+			FROM 		BF_ECP_ENTRY 
+			WHERE 		ENTRY_ADDRESS = #{userAddress}
+		]]>		
+		<!-- param1 -->
+	</select>
+	
+	
+	
+	
+	
+	
+
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"    "http://mybatis.org/dtd/mybatis-3-config.dtd">   
+<configuration>    
+
+	 <settings>
+	 	<setting name="jdbcTypeForNull" value="VARCHAR"></setting>
+	 </settings>
+	
+	 <typeAliases>
+	 	<typeAlias type="java.util.HashMap" 	alias="h_map" />
+	 	<typeAlias type="java.util.ArrayList" 	alias="a_list"/>
+	 </typeAliases>
+ 
+	<typeHandlers> 
+		<!--  <typeHandler javaType="byte[]" jdbcType="BLOB" handler="org.apache.ibatis.type.BlobTypeHandler"/>  -->
+		<typeHandler javaType="byte[]" jdbcType="BLOB" handler="org.apache.ibatis.type.BlobTypeHandler"/>
+		<typeHandler javaType="java.lang.String" jdbcType="CLOB" handler="org.apache.ibatis.type.ClobTypeHandler"/>
+	</typeHandlers>
+	
+	<mappers>
+		<mapper resource="mappers/sql/bizon/MbrMapper.xml" />
+		<mapper resource="mappers/sql/bizon/UserMapper.xml.xml" />
+		<mapper resource="mappers/sql/bizon/TranSaction_Test.xml" />
+	</mappers>	 
+</configuration> 
