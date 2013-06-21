@@ -83,7 +83,7 @@ public class MailController {
             e.printStackTrace();
           
         }finally{
-        	  this.getJsonReturn(model,request,response);
+        	  //this.getJsonReturn(model,request,response);
         }
 	 
 	   }

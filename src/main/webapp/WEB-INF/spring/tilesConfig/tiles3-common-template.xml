@@ -11,14 +11,6 @@
    
    <tiles-definitions>
    
-	<definition name="baseLayout" template="/WEB-INF/jsp/tilesTemplate/baseLayout/baseLayout_Master.jsp">
-		<put-attribute name="include" value="/WEB-INF/jsp/tilesTemplate/baseLayout/baseLayout_Include.jsp" />
-		<put-attribute name="header" value="/WEB-INF/jsp/tilesTemplate/baseLayout/baseLayout_Header.jsp" />
-		<put-attribute name="left" value="/WEB-INF/jsp/tilesTemplate/baseLayout/baseLayout_Left.jsp" />
-		<put-attribute name="body" value="/WEB-INF/jsp/tilesTemplate/baseLayout/baseLayout_Content.jsp" />
-		<put-attribute name="footer" value="/WEB-INF/jsp/tilesTemplate/baseLayout/baseLayout_Footer.jsp"/>
-	</definition>
-	
 	
    	<definition name="tiles/*/*" extends="baseLayout">
    		<put-attribute name="body" value="/WEB-INF/jsp/{1}/{2}.jsp" />

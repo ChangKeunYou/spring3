@@ -80,7 +80,9 @@
 	<beans:bean id="tilesConfigurer" class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
 		<beans:property name="definitions">
 			<beans:list>
+				<beans:value>/WEB-INF/spring/tilesConfig/tiles3-definitions-template.xml</beans:value>
 				<beans:value>/WEB-INF/spring/tilesConfig/tiles3-common-template.xml</beans:value>
+				<beans:value>/WEB-INF/spring/tilesConfig/tiles3-custom-template.xml</beans:value>
 				<beans:value>/WEB-INF/spring/tilesConfig/tiles3-test-template.xml</beans:value>
 			</beans:list>
 		</beans:property>
