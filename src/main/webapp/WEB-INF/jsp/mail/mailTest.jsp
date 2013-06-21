@@ -18,8 +18,8 @@ $.ajaxSetup({
 		
 	},
 	complete:function(responseText, textStatus) {
-		processingCount--;
-		if(processingCount <= 0) fnCloseLoading();
+		//processingCount--;
+		//if(processingCount <= 0) fnCloseLoading();
 	}
 });
 	
@@ -78,8 +78,16 @@ $.ajaxSetup({
               <p><a class="btn" href="#">View details &raquo;</a></p>
             </div>
             -->
+
+           	<span class="label label-info">메일보내기</span>
+   
+   			<br/>     <br/>     
+ 			             
             <form method="post" id="myForm" name="myForm">
-		       <table id="oTbl1" border="0">
+            	
+          	 
+          	   
+		       <table id="oTbl1"  class="table table-bordered" style="width: 700px;">
 					<colgroup width="15%" />
 					<colgroup width="85%" />
 					<tbody>
@@ -87,7 +95,7 @@ $.ajaxSetup({
 						<tr>
 							<td width="15%">보내는 사람 : </td>
 							<td width="85%">
-								<input type="text" name="from_mail" id="from_mail" value="" style="width: 300px;" />
+								<input type="text" name="from_mail" id="from_mail" value="ck.you@businesson.co.kr" style="width: 300px;" placeholder="ck.you@businesson.co.kr"  />
 							</td>
 						</tr>
 						
@@ -95,7 +103,7 @@ $.ajaxSetup({
 						<tr>
 							<td width="15%">받는사람 : </td>
 							<td width="85%">
-								<input type="text" name="to_mail" id="to_mail" value="" style="width: 300px;" />
+								<input type="text" name="to_mail" id="to_mail" value="youzang7@naver.com" style="width: 300px;" placeholder="seo@businesson.co.kr" />
 							</td>
 						</tr>
 						 
@@ -103,18 +111,18 @@ $.ajaxSetup({
 						<tr>
 							<td width="15%">제목 : </td>
 							<td width="85%">
-								<input type="text" name="mail_title" id="mail_title" value="" style="width: 500px;" />
+								<input type="text" name="mail_title" id="mail_title" value="하이창근" style="width: 500px;" placeholder="hi yck~~" />
 							</td>
 						</tr>
 						<tr>
 							<td>내용 : </td>
 							<td>
-								<textarea style="width: 500px; height: 300px;" id="mail_content" name="mail_content"></textarea>
+								<textarea style="width: 500px; height: 300px;" id="mail_content" name="mail_content" placeholder="content...">테스트내용</textarea>
 							</td>
 						</tr>
 						<tr>
-							<td colspan="2" align="center">
-								<input type="button" id="mail_btn" name="mail_btn" value="메일전송" />
+							<td colspan="2" style="text-align: center;">
+								<input type="button" id="mail_btn" name="mail_btn" value="메일전송" class="btn btn-primary" />
 							</td>
 						</tr>
 					</tbody>

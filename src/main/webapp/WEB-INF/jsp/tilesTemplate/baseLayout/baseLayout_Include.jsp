@@ -16,5 +16,5 @@
 <script type="text/javascript" src="${root}/resources/js/common/loading.js"></script>
 <!-- YUI Lib -->
 <script type="text/javascript" src="${root}/resources/js/YUI/yui-debug.js"></script>
-<script type="text/javascript" src="${root}/resources/js/YUI/yui-min.js.js"></script>
+<script type="text/javascript" src="${root}/resources/js/YUI/yui-min.js"></script>
 <!-- jqGrid Lib -->

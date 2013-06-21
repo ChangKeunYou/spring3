@@ -30,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.bizon.front.view.common.WrapperMappingJacksonJsonView;
+
 /**
  * 메일 테스트 
  * ajax 기반으로 테스트
@@ -48,9 +50,17 @@ public class MailController {
 	 
 	 private Logger logger = LoggerFactory.getLogger(this.getClass());
 	 
-	 
+	 /**
+	  * 
+	  * @param session
+	  * @param model
+	  * @param request
+	  * @param response
+	  * 
+	  * response 객체를 파라메터로 갖고 있을 경우 json으로 파싱이 안나간다.
+	  */
 	 @RequestMapping(method = {RequestMethod.GET,RequestMethod.POST})
-	 public void mailSendTest(HttpSession session, ModelMap model,HttpServletRequest request, HttpServletResponse response){
+	 public void mailSendTest(HttpSession session, ModelMap model,HttpServletRequest request, HttpServletResponse response)throws Exception{
 		 
 		 //logger.info("여기탄다???");
 		 logger.info("보내는사람===>" + request.getParameter("from_mail"));
@@ -84,6 +94,8 @@ public class MailController {
           
         }finally{
         	  //this.getJsonReturn(model,request,response);
+        	new WrapperMappingJacksonJsonView("text/plain").render(model, request, response);
+        		
         }
 	 
 	   }

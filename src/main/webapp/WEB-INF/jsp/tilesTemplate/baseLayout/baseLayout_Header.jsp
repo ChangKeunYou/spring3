@@ -32,7 +32,7 @@ $(function(){
            <span class="icon-bar"></span>
            <span class="icon-bar"></span>
          </button>
-         <a class="brand" href="#" style="color:#429FA0">BusinessON</a>
+         <a class="brand" href="${root}/index.view" style="color:#429FA0">BusinessON</a>
          
          
          <div class="nav-collapse collapse">
@@ -55,9 +55,14 @@ $(function(){
            </p>
           --> 
            <ul class="nav">
-             <li class="active"><a href="#">Home</a></li>
-             <li><a href="#about">About</a></li>
-             <li><a href="#contact">Contact</a></li>
+             <li class="active"><a href="${root}/main/mail/mailTest.view?menu=1">각종샘플</a></li>
+             <li><a style="cursor: pointer;">메뉴2</a></li>
+             <li><a style="cursor: pointer;">메뉴3</a></li>
+             <li><a style="cursor: pointer;">메뉴4</a></li>
+             <li><a style="cursor: pointer;">메뉴5</a></li>
+             <li><a style="cursor: pointer;">메뉴6</a></li>
+             <li><a style="cursor: pointer;">메뉴7</a></li>
+             <li><a style="cursor: pointer;">메뉴8</a></li>
            </ul>
          </div><!--/.nav-collapse -->
        </div>

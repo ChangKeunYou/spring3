@@ -169,6 +169,8 @@ textarea {
   vertical-align: top;
 }
 
+
+
 @media print {
   * {
     color: #000 !important;
@@ -220,6 +222,14 @@ textarea {
     page-break-after: avoid;
   }
 }
+
+/*
+@media (min-height : 768px)  {
+	#master-row-fluid {
+		height: auto;
+	}	
+}
+*/
 
 body {
   margin: 0;
@@ -418,10 +428,11 @@ a:focus {
 }
 
 
-#master-row-fluid .row-fluid  {
+#master-row-fluid {
 	height: auto;
 	min-height: 760px;
 }
+
 
 .row-fluid [class*="span"]:first-child {
   margin-left: 0;
