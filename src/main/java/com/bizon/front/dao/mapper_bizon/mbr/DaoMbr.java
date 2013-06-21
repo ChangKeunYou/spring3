@@ -1,10 +1,13 @@
-package com.bizon.front.dao.mbr;
+package com.bizon.front.dao.mapper_bizon.mbr;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.springframework.stereotype.Service;
+
 import com.bizon.front.dto.manage.UserDto;
 
+@Service(value="daoMbr_bizon")
 public interface DaoMbr {
 	                                                    
 	                        

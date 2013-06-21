@@ -110,12 +110,19 @@
 	
 	
 	<!-- seperator : , or ; -->
+	<!--  
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <!--  
-        <property name="basePackage" value="com.bizon.front.dao.manage,com.bizon.front.dao.cea,com.bizon.front.dao.mbr,com.bizon.front.dao.mail,com.bizon.front.dao.common,com.bizon.front.dao.cst,com.bizon.front.dao.idx" />
-        -->
+       <property name="basePackage" value="com.bizon.front.dao.manage,com.bizon.front.dao.cea,com.bizon.front.dao.mbr,com.bizon.front.dao.mail,com.bizon.front.dao.common,com.bizon.front.dao.cst,com.bizon.front.dao.idx" />
        <property name="basePackage" value="com.bizon.front.dao.*" />
     </bean>
+    -->
+    
+    	<!-- bizon mapper -->
+    <bean id="mybatisScannerForBizon" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+       <property name="basePackage" value="com.bizon.front.dao.mapper_bizon.*.*" />
+       <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+    </bean>
+    
 	
 	
 	 <!-- Sql Id로 실행하기 위한 구현 -->

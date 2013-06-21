@@ -10,6 +10,7 @@ import javax.mail.Session;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.mybatis.spring.mapper.MapperScannerConfigurer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,10 +23,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
-
+//import com.bizon.front.dao.mapper_bizon.manage.UserDao; 
 import com.bizon.front.dao.com.DaoComExec;
 //import com.bizon.front.dao.manage.UserDao;
-import com.bizon.front.dao.mbr.DaoMbr;
+//import com.bizon.front.dao.manage.UserDao;
+//import com.bizon.front.dao.mbr.DaoMbr;
+
 
 /**
  * Handles requests for the application home page.
@@ -42,18 +45,19 @@ public class HomeController {
 	@Autowired
 	private DaoComExec daoComExecForMtgi;
 	
+
+	@Autowired
+	private JavaMailSender mailSender;
 	
 	
-	
+    
 	 @Autowired
-	 private JavaMailSender mailSender;
-    /*
-	@Autowired
-	 private UserDao userDao;
+	 private com.bizon.front.dao.mapper_bizon.manage.UserDao userDao;
 	
-	@Autowired
-	private DaoMbr daoMbr;
-	*/
+	 
+	 @Autowired
+	 private com.bizon.front.dao.mapper_mtgi.manage.UserDao userDao_mtgi;
+	
 	/*
 	 @Resource
 	 private MailSender mailSender;
@@ -70,22 +74,29 @@ public class HomeController {
 		
 		Date date = new Date();       
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		System.out.println(this.getClass().getName());
+		//System.out.println(this.getClass().getName());
 		String formattedDate = dateFormat.format(date);
-		System.out.println("dd=" + SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
+		//System.out.println("dd=" + SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
 	
 		
 		logger.info("daoComExec jndi=======>" + daoComExec.getClass().getName() + " : " + daoComExec.hashCode() + " : " + daoComExec);
 		logger.info("daoComExecForMtgi jndi=======>" + daoComExecForMtgi.getClass().getName() + " : " + daoComExecForMtgi.hashCode() + " : " + daoComExecForMtgi);
+		//logger.info("UserDaoBizon===>" + this.userDao_bizon.getClass().getName());
+		//logger.info("UserDaoMtgi===>" + this.userDao_mtgi.getClass().getName());
 		
+		//logger.info("userDao_bizon=>" + userDao_bizon.getClass().getName());
 		
+		ArrayList dataList1 = this.userDao.getJndi1ConnectTest();
+		ArrayList dataList2 = this.userDao_mtgi.getJndi1ConnectTest(); 
+		logger.info(dataList1.size() + " : " + dataList1.toString());
+		logger.info(dataList2.size() + " : " + dataList2.toString());
 		
-		ArrayList daoComExec_a = (ArrayList)this.daoComExec.selectList("tran_test.testSelect");
-		ArrayList daoComExecForMtgi_a = (ArrayList)this.daoComExecForMtgi.selectList("test1.testSelect");
+		//ArrayList daoComExec_a = (ArrayList)this.daoComExec.selectList("tran_test.testSelect");
+		//ArrayList daoComExecForMtgi_a = (ArrayList)this.daoComExecForMtgi.selectList("test1.testSelect");
 		
-		logger.info(daoComExec_a.toString());
+		//logger.info(daoComExec_a.toString());
 		
-		logger.info(daoComExecForMtgi_a.toString());
+		//logger.info(daoComExecForMtgi_a.toString());
 		
 		/*
 		for(int i = 0; i < 10; i++){
@@ -101,9 +112,11 @@ public class HomeController {
 		*/
 		//logger.info("mailSender DI=>" + mailSender.getClass().getName() + " : " + mailSender.getClass().hashCode());
 		
-
-		System.out.println("Test Jrebel...11443..");
-		//????
+		//ArrayList dataList =  this.userDao.getJndi1ConnectTest();
+		
+	//	logger.info(dataList.toString());
+		
+		
 		model.addAttribute("serverTime", formattedDate );
 		
 		return "home";

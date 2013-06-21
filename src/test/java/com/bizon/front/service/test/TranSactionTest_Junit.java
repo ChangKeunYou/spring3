@@ -26,7 +26,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bizon.front.dao.com.DaoComExec;
-import com.bizon.front.dao.manage.UserDao;
+//import com.bizon.front.dao.manage.UserDao;
 
 //@Transactional(rollbackFor={Exception.class,RuntimeException.class})
 //@TransactionConfiguration
@@ -37,8 +37,8 @@ public class TranSactionTest_Junit {
 	
 	
     
-	@Autowired
-	private UserDao userDao;
+	//@Autowired
+	//private UserDao userDao;
 	
 	private Log logger = LogFactory.getLog(this.getClass());
 	
@@ -62,7 +62,7 @@ public class TranSactionTest_Junit {
 	public void testTran(){
 		
 		// TODO Auto-generated method stub
-		System.out.println("Spring3 junit Test=>" + userDao.getClass().getName());
+		//System.out.println("Spring3 junit Test=>" + userDao.getClass().getName());
 		System.out.println("TranSactionDAOTemplate junit Test=>" + tranSactionDAOTemplate.getClass().getName());
 		//System.out.println("#### => " + logWriter.toString());
 		//logger.info("test");

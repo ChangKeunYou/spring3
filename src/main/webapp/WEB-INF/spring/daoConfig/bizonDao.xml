@@ -112,14 +112,17 @@
          <property name="typeAliasesPackage" value="com.bizon.front.vo , com.bizon.front.dto"/>
 	</bean>	
 	
+	<!-- 인터페이스르 나눠서 구분하여 스캐닝...spring-mybatis1.2.0 버전부터 바꼇다-_- 멀티로 안됨.. -->
 	
+	<!-- bizon mapper -->
     <bean id="mybatisScannerForBizon" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-       <property name="basePackage" value="com.bizon.front.dao.*" />
+       <property name="basePackage" value="com.bizon.front.dao.mapper_bizon.*" />
        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
     </bean>
-	
+
+	<!-- 그외 매퍼 -->
 	<bean id="mybatisScannerForMtgi" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-       <property name="basePackage" value="com.bizon.front.dao.*" />
+       <property name="basePackage" value="com.bizon.front.dao.mapper_mtgi.*" />
        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryForMtgi" />
     </bean>
 	

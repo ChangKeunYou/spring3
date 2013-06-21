@@ -1,7 +1,10 @@
-package com.bizon.front.dao.manage;
+package com.bizon.front.dao.mapper_mtgi.manage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import org.springframework.stereotype.Service;
 
 import com.bizon.front.dto.manage.EntryDto;
 import com.bizon.front.dto.manage.UserDto;
@@ -9,6 +12,7 @@ import com.bizon.front.dto.manage.UserListDto;
 import com.bizon.front.vo.manage.EntryVO;
 import com.bizon.front.vo.manage.UserVO;
 
+@Service(value="userDao_mtgi")
 public interface UserDao {
 	
 	public HashMap selectUserMap(String userId);
@@ -52,5 +56,7 @@ public interface UserDao {
 	public int selectBf_Ecp_Entry(String userAddress);
 
 	public HashMap setPeerTypeCheck(String userId);
+
+	public ArrayList getJndi1ConnectTest();
 
 }

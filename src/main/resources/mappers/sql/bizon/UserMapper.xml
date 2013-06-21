@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.bizon.front.dao.manage.UserDao">
+<mapper namespace="com.bizon.front.dao.mapper_bizon.manage.UserDao">
 	
 	<resultMap id="userInfoMap" type="UserDto">
         <result property="id" 					column="id"	/>
@@ -466,6 +466,10 @@
 	</select>
 	
 	
+	<select id="getJndi1ConnectTest" resultType="h_map">
+		SELECT CONVERT(VARCHAR,TABLE_NAME) AS TABLE_NAME FROM INFORMATION_SCHEMA.TABLES
+		WHERE	TABLE_NAME	LIKE 'S%'
+	</select>
 	
 	
 	

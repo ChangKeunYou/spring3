@@ -18,6 +18,8 @@
 	</typeHandlers>
 	
 	<mappers>
+		<mapper resource="mappers/sql/mtgi/MbrMapper.xml" />
+		<mapper resource="mappers/sql/mtgi/UserMapper.xml" />
 		<mapper resource="mappers/sql/mtgi/test1.xml" />
 	</mappers>	 
 	
