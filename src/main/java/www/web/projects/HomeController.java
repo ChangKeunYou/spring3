@@ -1,6 +1,7 @@
 package www.web.projects;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
+import com.bizon.front.dao.com.DaoComExec;
 //import com.bizon.front.dao.manage.UserDao;
 import com.bizon.front.dao.mbr.DaoMbr;
 
@@ -32,6 +34,15 @@ import com.bizon.front.dao.mbr.DaoMbr;
 public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	
+	@Autowired
+	private DaoComExec daoComExec;
+	
+	
+	@Autowired
+	private DaoComExec daoComExecForMtgi;
+	
+	
 	
 	
 	 @Autowired
@@ -64,10 +75,34 @@ public class HomeController {
 		System.out.println("dd=" + SessionLocaleResolver.LOCALE_SESSION_ATTRIBUTE_NAME);
 	
 		
+		logger.info("daoComExec jndi=======>" + daoComExec.getClass().getName() + " : " + daoComExec.hashCode() + " : " + daoComExec);
+		logger.info("daoComExecForMtgi jndi=======>" + daoComExecForMtgi.getClass().getName() + " : " + daoComExecForMtgi.hashCode() + " : " + daoComExecForMtgi);
+		
+		
+		
+		ArrayList daoComExec_a = (ArrayList)this.daoComExec.selectList("tran_test.testSelect");
+		ArrayList daoComExecForMtgi_a = (ArrayList)this.daoComExecForMtgi.selectList("test1.testSelect");
+		
+		logger.info(daoComExec_a.toString());
+		
+		logger.info(daoComExecForMtgi_a.toString());
+		
+		/*
+		for(int i = 0; i < 10; i++){
+			this.daoComExec.insert("tran_test.insert_1");
+			
+		}
+		
+		this.daoComExecForMtgi.insert("test1.insert_1");
+		
+		if(true){
+			throw new RuntimeException();
+		}
+		*/
 		//logger.info("mailSender DI=>" + mailSender.getClass().getName() + " : " + mailSender.getClass().hashCode());
 		
 
-		System.out.println("Test Jrebel...1133..");
+		System.out.println("Test Jrebel...11443..");
 		//????
 		model.addAttribute("serverTime", formattedDate );
 		

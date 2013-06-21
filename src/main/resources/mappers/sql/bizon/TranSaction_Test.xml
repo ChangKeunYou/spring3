@@ -6,13 +6,24 @@
 		비즈온 유창근
 		트랜잭션 및 dao주입 클래스 테스트 하기 위하여 생성 
 	-->
-	<select id="testSelect" resultType="h_map">
+	<select id="testSelect_v" resultType="h_map">
 		SELECT 'NETPION' AS TITLE , A.* FROM TAB A
 	</select>
 	
 	
 	<insert id="testInsert" parameterType="h_map">
 		INSERT INTO TEST_TRANSACTION VALUES(#{id},#{col1},#{col2})
+	</insert>
+	
+	
+	<select id="testSelect" resultType="h_map">
+		SELECT CONVERT(VARCHAR,TABLE_NAME) AS TABLE_NAME FROM INFORMATION_SCHEMA.TABLES
+		WHERE	TABLE_NAME	LIKE 'S%'
+	</select>
+	
+	
+	<insert id="insert_1">
+			INSERT INTO FOO VALUES('TEST1');
 	</insert>
 	
 </mapper>

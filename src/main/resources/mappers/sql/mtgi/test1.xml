@@ -4,4 +4,13 @@
 <mapper namespace="test1">
 	
 	
+	<select id="testSelect" resultType="h_map">
+		SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES
+		WHERE	TABLE_NAME	LIKE 'MTGI%'
+	</select>
+	
+	<insert id="insert_1">
+			INSERT INTO FOO VALUES('TEST1');
+	</insert>
+	
 </mapper>

@@ -8,6 +8,7 @@
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:util="http://www.springframework.org/schema/util"
 	xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc 
 						http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
 						http://www.springframework.org/schema/beans 
@@ -67,7 +68,7 @@
 	</bean>
 	
 	<!-- SMTP 메일발송 DB -->
-	<bean id="transactionManagerForSMTP" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<bean id="transactionManagerForMtgi" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="logDataSourceForMtgi" />
 	</bean>
 	
@@ -111,12 +112,15 @@
          <property name="typeAliasesPackage" value="com.bizon.front.vo , com.bizon.front.dto"/>
 	</bean>	
 	
-   <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-    <!--  
-        <property name="basePackage" value="com.bizon.front.dao.manage,com.bizon.front.dao.cea,com.bizon.front.dao.mbr,com.bizon.front.dao.mail,com.bizon.front.dao.common,com.bizon.front.dao.cst,com.bizon.front.dao.idx" />
-        
-        -->
+	
+    <bean id="mybatisScannerForBizon" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
        <property name="basePackage" value="com.bizon.front.dao.*" />
+       <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+    </bean>
+	
+	<bean id="mybatisScannerForMtgi" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+       <property name="basePackage" value="com.bizon.front.dao.*" />
+       <property name="sqlSessionFactoryBeanName" value="sqlSessionFactoryForMtgi" />
     </bean>
 	
 	
@@ -130,8 +134,51 @@
     </bean> 
     
     
- 
+    	<!-- controller 함수단위로 transaction 처리 적용 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" propagation="REQUIRES_NEW"/>
+		</tx:attributes>
+	</tx:advice>
 	
+ 
+	<tx:advice id="txAdvice_mtgi" transaction-manager="transactionManagerForMtgi">
+		<tx:attributes>
+			<tx:method name="*" propagation="REQUIRES_NEW"/>
+		</tx:attributes>
+	</tx:advice>
+
+	
+	<aop:config>
+		<aop:advisor pointcut="execution(public * com.bizon.front.controller.*.*(..))" advice-ref="txAdvice"/>
+		<aop:advisor pointcut="execution(public * com.bizon.front.controller.*.*.*(..))" advice-ref="txAdvice"/>
+		<aop:advisor pointcut="execution(public * www.web.projects.*.*(..))" advice-ref="txAdvice"/>
+		<aop:advisor pointcut="execution(public * www.web.projects.*.*.*(..))" advice-ref="txAdvice"/>
+		
+		<aop:advisor pointcut="execution(public * com.bizon.front.controller.*.*(..))" advice-ref="txAdvice_mtgi"/>
+		<aop:advisor pointcut="execution(public * com.bizon.front.controller.*.*.*(..))" advice-ref="txAdvice_mtgi"/>
+		<aop:advisor pointcut="execution(public * www.web.projects.*.*(..))" advice-ref="txAdvice_mtgi"/>
+		<aop:advisor pointcut="execution(public * www.web.projects.*.*.*(..))" advice-ref="txAdvice_mtgi"/>
+	</aop:config>	
+    
+    
+    <!--  
+ 
+	 <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    
+        <property name="basePackage" value="com.bizon.front.dao.manage,com.bizon.front.dao.cea,com.bizon.front.dao.mbr,com.bizon.front.dao.mail,com.bizon.front.dao.common,com.bizon.front.dao.cst,com.bizon.front.dao.idx" />
+    
+       <property name="basePackage" value="com.bizon.front.dao.*" />
+    </bean>
+    
+    -->
+    
+    <!--  
+     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+
+       <property name="basePackage" value="com.bizon.front.dao.*" />
+    </bean>
+    -->
 	
 						
 </beans>						
