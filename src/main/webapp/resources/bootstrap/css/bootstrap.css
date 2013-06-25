@@ -823,7 +823,7 @@ h4 small {
 
 .page-header {
   padding-bottom: 9px;
-  margin: 20px 0 30px;
+  margin: 20px 0 15px;
   border-bottom: 1px solid #eeeeee;
 }
 
@@ -2021,7 +2021,7 @@ table {
 
 .table {
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 }
 
 .table th,

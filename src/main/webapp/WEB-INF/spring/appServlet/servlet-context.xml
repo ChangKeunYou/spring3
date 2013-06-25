@@ -67,8 +67,11 @@
 	<mvc:view-controller path="/login.view" view-name="login"/>
 
     <!-- url로 매핑하여 해당 컨트롤러 찾아 가는 빈 -->
-    <beans:bean id="urlMapping" class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" />
-    
+    <!--  
+    <beans:bean id="urlMapping" class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" >
+    	<beans:property name="caseSensitive" value="true" />
+    </beans:bean>
+    -->
 
 	<!-- View Resolver  해당 bean을 등록해야 Action class 에서 View 영역 호출이 가능 --> 
 	<beans:bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">

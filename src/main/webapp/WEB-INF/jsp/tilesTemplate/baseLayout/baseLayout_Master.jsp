@@ -40,7 +40,7 @@
 		
 	</script>
 </head>
-<body id="all_area">
+<body id="all_area" class="yui3-skin-sam">
 	
 	<!-- 모달 로딩 start -->
 	<div id="loadingArea" style="display: none;">

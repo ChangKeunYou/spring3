@@ -39,6 +39,7 @@ import com.bizon.front.view.common.WrapperMappingJacksonJsonView;
  *
  */
 @Controller
+@RequestMapping(value="/mail" , method = {RequestMethod.GET,RequestMethod.POST})
 public class MailController {
 	
 	 @Resource
@@ -59,7 +60,7 @@ public class MailController {
 	  * 
 	  * response 객체를 파라메터로 갖고 있을 경우 json으로 파싱이 안나간다.
 	  */
-	 @RequestMapping(method = {RequestMethod.GET,RequestMethod.POST})
+	 @RequestMapping(value="mailSendTest.json")
 	 public void mailSendTest(HttpSession session, ModelMap model,HttpServletRequest request, HttpServletResponse response)throws Exception{
 		 
 		 //logger.info("여기탄다???");

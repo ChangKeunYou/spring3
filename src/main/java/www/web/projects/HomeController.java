@@ -34,6 +34,7 @@ import com.bizon.front.dao.com.DaoComExec;
  * Handles requests for the application home page.
  */
 @Controller
+@RequestMapping(value="/",method = {RequestMethod.GET, RequestMethod.POST})
 public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
@@ -68,7 +69,7 @@ public class HomeController {
 	 * Simply selects the home view to render by returning its name.    dddd1234
 	 */
 	
-	@RequestMapping(value = "/index.view", method = RequestMethod.GET)
+	@RequestMapping(value = "index.view", method = RequestMethod.GET)
 	public String home(Locale locale, Model model , HttpServletRequest request,HttpServletResponse response) {
 		logger.info("Welcome home! The client locale is {}.", locale);
 		

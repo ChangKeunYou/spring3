@@ -294,17 +294,17 @@ public abstract class AbsService{
 		 return tmp.toString();   
 	 }    
 
-		protected HashMap executeParamUpdate(HttpServletRequest request) {
-			HashMap <String,String> paramHash = new HashMap<String,String>();
+		protected HashMap<String,Object> executeParamUpdate(HttpServletRequest request) {
+			HashMap <String,Object> paramHash = new HashMap<String,Object>();
 			Enumeration<String> reqParam = request.getParameterNames();
 		    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		    System.out.println("\n==============================" + format.format(new Date()) + "========================================");
-		    System.out.println("request from : " + request.getRemoteAddr());
+		    logger.info("\n==============================" + format.format(new Date()) + "========================================");
+		    logger.info("request from : " + request.getRemoteAddr());
 		    
 			while(reqParam.hasMoreElements()){
 				String key = reqParam.nextElement();
 				String value = request.getParameter(key);
-				 System.out.println(key + " => " + value);
+				logger.info(key + " => " + value);
 				//logger.debug("key=" + key + " : value=" + value);
 				paramHash.put(key, value);
 			}

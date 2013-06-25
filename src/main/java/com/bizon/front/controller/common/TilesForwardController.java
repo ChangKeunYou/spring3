@@ -26,7 +26,7 @@ import com.bizon.front.service.module.AbsService;
  * 
  */
 @Controller
-@RequestMapping(value="/main",method = {RequestMethod.GET, RequestMethod.POST})
+@RequestMapping(value="/main",method = {RequestMethod.GET})
 public class TilesForwardController extends AbsService{
 		
 	 private Logger logger = LoggerFactory.getLogger(this.getClass());
