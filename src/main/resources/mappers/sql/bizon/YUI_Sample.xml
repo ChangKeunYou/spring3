@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="euc-kr"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="yui">
+	
+	
+	<select id="getCount" parameterType="h_map" resultType="int">
+			SELECT 		COUNT(*) AS CNT
+			FROM		Sales.CreditCard
+			<where>
+				<if test=" s_card_type != 'none' ">
+					CARDTYPE = #{s_card_type}
+				</if>
+				
+				<if test=" s_card_no != null and s_card_no != '' ">
+					AND CARDNUMBER LIKE '%'+ CONVERT(NVARCHAR,${s_card_no}) + '%'
+				</if>
+				
+				<if test=" s_exp_year != null and s_exp_year != '' ">
+					AND EXPYEAR = CONVERT(VARCHAR,#{s_exp_year})
+				</if>
+				
+				<if test=" s_exp_month != null and s_exp_month != '' ">
+					AND EXPMONTH = CONVERT(VARCHAR,#{s_exp_month})
+				</if>
+			</where>
+		
+	</select>
+	
+	
+	<select id="getList" parameterType="h_map" resultType="h_map">
+		SELECT * 
+		FROM(
+			SELECT 		CREDITCARDID,
+						CARDTYPE,
+						CARDNUMBER,
+						SUBSTRING(CARDNUMBER,1,4) + '-' +
+						SUBSTRING(CARDNUMBER,5,4) + '-' + 
+						SUBSTRING(CARDNUMBER,9,4) + '-' + 
+						SUBSTRING(CARDNUMBER,13,LEN(CARDNUMBER))
+						AS CARDNUMBER_V,
+						EXPMONTH,
+						EXPYEAR,
+						REPLACE(CONVERT(VARCHAR(20),MODIFIEDDATE,111),'/','-') AS MODIFIEDDATE,
+						ROW_NUMBER()OVER(ORDER BY CREDITCARDID ASC) AS RNUM
+			FROM		Sales.CreditCard
+			<where>
+				<if test=" s_card_type != 'none' ">
+					CARDTYPE = #{s_card_type}
+				</if>
+				
+				<if test=" s_card_no != null and s_card_no != '' ">
+					AND CARDNUMBER LIKE '%'+ CONVERT(NVARCHAR,${s_card_no}) + '%'
+				</if>
+				
+				<if test=" s_exp_year != null and s_exp_year != '' ">
+					AND EXPYEAR = CONVERT(VARCHAR,#{s_exp_year})
+				</if>
+				
+				<if test=" s_exp_month != null and s_exp_month != '' ">
+					AND EXPMONTH = CONVERT(VARCHAR,#{s_exp_month})
+				</if>
+			</where>
+		) AS C
+		WHERE 	 1 = 1
+		AND		C.RNUM BETWEEN #{start} AND #{end}
+	</select>
+	
+	
+</mapper>

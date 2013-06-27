@@ -36,7 +36,7 @@
 	<!-- 외부디비 -->
 	<bean id="dataSourceForMtgi" class="org.springframework.jndi.JndiObjectFactoryBean">
 		<property name="resourceRef" value="true" />
-		<property name="jndiName" value="jdbc/IMDB" />
+		<property name="jndiName" value="jdbc/Neomodule" />
 	</bean>
 	
 	

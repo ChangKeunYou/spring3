@@ -50,7 +50,10 @@ public class YUI_Sample_Controller {
 			 HashMap dataMap = this.yuiService.getSampleDataSearch(request,response);
 			 
 			 
-			 model.addAttribute("Results", dataMap);
+			 model.addAttribute("ResultSet", dataMap);
+			 
+			 //json 데이터를 커스텀 하게 나갈려면
+			 //펑션 리턴 타입을 ModelAndView 해놓고 리턴 해당 클래스 호출
 			 
 		 }catch(Exception e){
 			 logger.error("YUISearch Exception=>" + e.getMessage());

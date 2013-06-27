@@ -21,6 +21,7 @@
 		<mapper resource="mappers/sql/bizon/MbrMapper.xml" />
 		<mapper resource="mappers/sql/bizon/UserMapper.xml" />
 		<mapper resource="mappers/sql/bizon/TranSaction_Test.xml" />
+		<mapper resource="mappers/sql/bizon/YUI_Sample.xml" />
 	</mappers>	 
 	
 </configuration> 
