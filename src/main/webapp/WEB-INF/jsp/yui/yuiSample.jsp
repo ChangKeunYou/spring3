@@ -66,7 +66,6 @@
 		
 	});
 	
-	
 		
 	
 	//YUI node(dom) controller
