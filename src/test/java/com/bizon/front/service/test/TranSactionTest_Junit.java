@@ -33,6 +33,13 @@ import com.bizon.front.dao.com.DaoComExec;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"file:src/main/webapp/WEB-INF/junit_test_config/dispacher-junit-test-servlet.xml"})
+//@ContextConfiguration(locations = {
+//	      "classpath:**/legacyWeb-servlet.xml",
+//	      "classpath:**/legacy-dct-data.xml",
+//	      "classpath:**/legacy-dct-service.xml",
+//	      "classpath:**/legacy-security.xml",
+//	      "classpath:**/legacy-tiles.xml",})
+	      
 public class TranSactionTest_Junit {
 	
 	
