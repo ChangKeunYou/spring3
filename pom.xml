@@ -13,8 +13,14 @@
 		<org.springframework-security-version>3.1.3.RELEASE</org.springframework-security-version>
 		<org.aspectj-version>1.6.11</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
+		<spring.batch.version>2.2.0.RELEASE</spring.batch.version>
+		<spring.data.version>1.2.1.RELEASE</spring.data.version>
+		<mongodb.driver.version>2.11.2</mongodb.driver.version>
 	</properties>
 	
+	
+	
+
   <distributionManagement>
       <repository>
           <uniqueVersion>false</uniqueVersion>
@@ -103,7 +109,7 @@
 		<dependency>
 			<groupId>org.springframework.batch</groupId>
 			<artifactId>spring-batch-test</artifactId>
-			<version>LATEST</version>
+			<version>${spring.batch.version}</version>
 		</dependency>
 		
 		<!-- Spring dependencies end  -->
@@ -319,7 +325,34 @@
 	    <version>3.0.0</version>
 	  </dependency>
 	
+			<!-- Testng -->
+	<dependency>
+		<groupId>org.testng</groupId>
+		<artifactId>testng</artifactId>
+		<version>6.8.5</version>
+		<scope>test</scope>
+	</dependency>
 	
+		<!-- MongoDB database driver -->
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>${mongodb.driver.version}</version>
+		</dependency>
+
+		<!-- Spring data mongodb -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
+			<version>${spring.data.version}</version>
+		</dependency>
+		
+	<!-- quartz -->
+	<dependency>
+		<groupId>org.quartz-scheduler</groupId>
+		<artifactId>quartz</artifactId>
+		<version>1.8.6</version>
+	</dependency>
 	
 	</dependencies>
 
