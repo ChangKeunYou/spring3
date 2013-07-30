@@ -173,5 +173,7 @@
 		</beans:constructor-arg>
 	</beans:bean>
 	
-
+	<!-- aspectJ 로그 -->
+	<beans:bean id="aop_log" class="com.bizon.front.log.AOP_LogWriter" />
+	
 </beans:beans>
